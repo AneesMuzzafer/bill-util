@@ -91,29 +91,21 @@ const MainScreen = () => {
 
     return (
         <div className="App">
-            <header style={{height: 100, backgroundColor: "black", color: 'white', textAlign: "center", fontSize: 24}} className="App-header">
+            {/* <header style={{height: 100, backgroundColor: "black", color: 'white', textAlign: "center", fontSize: 24}} className="App-header">
                 POWERGRID BILL UTILITY
-            </header>
+            </header> */}
 
-            <Grid container >
-                <Grid xs={9} >
-                    <Box sx={{ backgroundColor: "brown", width: "100%", height: "100vh" }}>
-                        <input type="file" id="csvFileInput" onChange={(e) => {
-                            setCsvFile(() => {
-                                if (e.target.files) {
-                                    return e.target.files[0]
-                                }
-                            });
-                        }} />
-                        <button onClick={handleProcessing}>Process Csv</button>
-                    </Box>
-                </Grid>
-                <Grid xs={3} >
-                    <Box sx={{ backgroundColor: "blue", width: "100%", height: "100vh" }}>
+            <Box>
+                <input type="file" id="csvFileInput" onChange={(e) => {
+                    setCsvFile(() => {
+                        if (e.target.files) {
+                            return e.target.files[0]
+                        }
+                    });
+                }} />
+                <button onClick={handleProcessing}>Process Csv</button>
+            </Box>
 
-                    </Box>
-                </Grid>
-            </Grid>
 
             {/* <Box sx={{
                 width: "75vw",
