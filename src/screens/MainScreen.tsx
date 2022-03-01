@@ -3,7 +3,7 @@ import { processCsv, TicketObject } from "../utils/utils";
 
 import Fuse from 'fuse.js'
 import { links } from "../utils/links";
-import UploadLinks from "../components/UploadLinks";
+import UploadLinks from "./UploadLinks";
 import { Box, Grid } from "@mui/material";
 import { flexbox } from "@mui/system";
 
