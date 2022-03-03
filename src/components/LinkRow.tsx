@@ -7,55 +7,27 @@ import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
 
 
-interface Link {
-    key: number;
+export interface Link {
+    id: number;
     label: string;
 }
 
 
-export default function LinkRow() {
+const LinkRow: React.FC<{links: Link[], thisLink: Link}> = ({links, thisLink}) => {
 
-    const [connectedLinks, setconnectedLinks] = React.useState<Link[]>([
-        // { key: 0, label: 'Angular' },
-        // { key: 1, label: 'jQuery' },
-        // { key: 2, label: 'Polymer' },
-        // { key: 3, label: 'React' },
-        // { key: 4, label: 'Vue.js' },
-    ]);
+    const [connectedLinks, setconnectedLinks] = React.useState<Link[]>([]);
 
-    const [selectedLink, setSelectedLink] = React.useState<Link | null>();
+    const [selectedLink, setSelectedLink] = React.useState<Link>(thisLink);
 
-    const [links, setLinks] = React.useState<Link[]>([
-        { key: 0, label: 'Angular' },
-        { key: 1, label: 'jQuery' },
-        { key: 2, label: 'Polymer' },
-        { key: 3, label: 'React' },
-        { key: 4, label: 'Vue.js' },
-    ]);
+    // const [links, setLinks] = React.useState<Link[]>([
+    //     { key: 0, label: 'Angular' },
+    //     { key: 1, label: 'jQuery' },
+    //     { key: 2, label: 'Polymer' },
+    //     { key: 3, label: 'React' },
+    //     { key: 4, label: 'Vue.js' },
+    // ]);
 
-    const jsonData = { name: "Anees", age: 21 };
-
-    const handleSaveToPC = () => {
-        // const fileData = JSON.stringify(jsonData);
-        // const blob = new Blob([fileData], {type: "text/plain"});
-        // const url = URL.createObjectURL(blob);
-        // const link = document.createElement('a');
-        // link.download = 'filename.json';
-        // link.href = url;
-        // link.click();
-        localStorage.setItem("links", JSON.stringify(connectedLinks));
-    }
-
-    React.useEffect(() => {
-
-    }, [])
-
-
-    const getItems = () => {
-        const dat = localStorage.getItem("links");
-        console.log(JSON.parse(dat as string));
-    }
-
+    
     const addLink = (link: Link) => {
         if (!link) return;
 
@@ -67,7 +39,7 @@ export default function LinkRow() {
         setconnectedLinks(prevLinks => [...prevLinks, link]);
     }
 
-    const handleDelete = (linkToDelete: Link) => { setconnectedLinks((prevlinks) => prevlinks.filter(link => link.key !== linkToDelete.key)); };
+    const handleDelete = (linkToDelete: Link) => { setconnectedLinks((prevlinks) => prevlinks.filter(link => link.id !== linkToDelete.id)); };
 
     return (
         <Paper
@@ -88,9 +60,10 @@ export default function LinkRow() {
                     flexWrap: 'wrap',
                     listStyle: 'none',
                 }}>
-                <Chip label="Rawalpora PoP" color="primary" variant="filled" sx={{ fontWeight: "bold", marginRight: 2 }} />
+                <Chip label={thisLink.id} color="primary" variant="outlined" sx={{ fontWeight: "bold", marginRight: 2 }} />
+                <Chip label={thisLink.label} color="primary" variant="filled" sx={{ fontWeight: "bold", marginRight: 2 }} />
                 {connectedLinks.map((data) => (
-                    <li key={data.key} style={{ margin: 0, padding: 0 }}>
+                    <li key={data.id} style={{ margin: 0, padding: 0 }}>
                         <Chip
                             sx={{ marginX: 0.5 }}
                             label={data.label}
@@ -115,9 +88,9 @@ export default function LinkRow() {
                     renderInput={(params) => <TextField {...params} size="small" label="Link" />}
                 />
                 <Button variant="contained" size="small" sx={{ mx: 2 }} onClick={() => selectedLink && addLink(selectedLink)}>Add</Button>
-                <Button onClick={() => handleSaveToPC()}>Save JSOn</Button>
-                <Button onClick={() => getItems()}>Get JSOn</Button>
             </Box>
         </Paper>
     );
 }
+
+export default LinkRow;
