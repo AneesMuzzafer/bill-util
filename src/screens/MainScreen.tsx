@@ -7,8 +7,6 @@ import { doFuzzySearch } from "../utils/fuzzySeach";
 import { useNavigate } from "react-router-dom";
 import { updateParsedState } from "../state/parsedLinks";
 
-let parsedResult: any[] = [];
-
 const MainScreen = () => {
 
     // const [csvFile, setCsvFile] = React.useState<object>({});
