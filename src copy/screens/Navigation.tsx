@@ -10,6 +10,7 @@ export default function Navigation() {
             <Routes>
                 <Route path="/" element={<MainScreen />} />
                 <Route path="/links" element={<UploadLinks />} />
+                <Route path="/li" element={<div>abc</div>} />
             </Routes>
         </BrowserRouter>
     )

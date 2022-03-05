@@ -1,110 +1,65 @@
 import React from "react";
 import { processCsv, TicketObject } from "../utils/utils";
+import { Box, Container } from "@mui/material";
+import UploadFileButton from "../components/UploadFileButton";
+import { useAppSelector, useAppDispatch } from "../state/hook";
+import { doFuzzySearch } from "../utils/fuzzySeach";
+import { useNavigate } from "react-router-dom";
+import { updateParsedState } from "../state/parsedLinks";
 
-import Fuse from 'fuse.js'
-import { links } from "../utils/links";
-import UploadLinks from "./UploadLinks";
-import { Box, Grid } from "@mui/material";
-import { flexbox } from "@mui/system";
-
-
-
-const doFuzzySearch = (ticketArray: TicketObject[], links: TicketObject[]) => {
-
-    let sortedArray: any[] = [];
-    let unSortedArray: any[] = [];
-
-    const fuse = new Fuse(links, {
-        keys: [
-            {
-                name: "Links",
-                weight: 1
-            }, {
-                name: "Area",
-                weight: 0.01
-            }
-        ],
-        includeScore: true
-    });
-
-    console.log(ticketArray);
-    let i = 0;
-    ticketArray.forEach(ticket => {
-        if (ticket.Title) {
-            const clearedTitle = ticket.Title.replace(/ *\([^)]*\) */g, "");
-            // const parsedLinks = clearedTitle.split(/[-;]+/);
-            const parsedLinks = clearedTitle.split(/[-;/\\/]+/);
-
-            parsedLinks.forEach((link: string) => {
-
-                // const clearedLink = link.replace(/ *\([^)]*\) */g, "");
-
-                const match = fuse.search(link.trim());
-                if (match.length > 0) {
-                    if (match[0].score! < 0.4) {
-                        sortedArray.push({ link, matched: match[0].item.Links, score: match[0].score });
-                        // console.log(link, "------", match, i++);
-                    } else {
-                        unSortedArray.push({ link, matches: [match[0].item.Links, match[1]?.item.Links] });
-                    }
-
-                } else {
-                    console.log("No match found for", link)
-                }
-            });
-            // console.log(parsedLinks);    
-        } else {
-            console.log(ticket)
-        }
-
-    });
-
-    console.log(sortedArray);
-    console.log(unSortedArray);
-
-}
+let parsedResult: any[] = [];
 
 const MainScreen = () => {
 
-    const [csvFile, setCsvFile] = React.useState<object>({});
-    const [linkFile, setLinkFile] = React.useState<object>({});
+    // const [csvFile, setCsvFile] = React.useState<object>({});
+    // const [linkFile, setLinkFile] = React.useState<object>({});
     const [ticketArray, setTicketArray] = React.useState<TicketObject[]>([]);
-    const [linkArray, setLinkArray] = React.useState<TicketObject[]>([]);
+    // const [linkArray] = React.useState<TicketObject[]>([]);
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+    const networkArray = useAppSelector(state => state.links);
+    const parsedTickets = useAppSelector(state => state.parsedTickets);
 
+    // const handleProcessing = async () => {
+    //     const tickets = await processCsv(csvFile);
+    //     setTicketArray(tickets);
+    // }
 
+    console.log(parsedTickets);
 
-
-    const handleProcessing = async () => {
-        const tickets = await processCsv(csvFile);
+    const handleTicketProcessing = async (ticketFile: File) => {
+        const tickets = await processCsv(ticketFile);
         setTicketArray(tickets);
     }
 
-    const handleLinkProcessing = async () => {
-        const links = await processCsv(linkFile);
-        console.log(links);
-        setLinkArray(links);
-    }
-
     React.useEffect(() => {
-        ticketArray && doFuzzySearch(ticketArray, linkArray);
-    }, [ticketArray, linkArray]);
+        if (ticketArray.length > 0 && networkArray) {
+            // parsedResult = doFuzzySearch(ticketArray, networkArray);
+            dispatch(updateParsedState(doFuzzySearch(ticketArray, networkArray)));
+            navigate("/map");
+        }
+    }, [ticketArray, networkArray, navigate, dispatch]);
 
     return (
-        <div className="App">
+        <Container >
             {/* <header style={{height: 100, backgroundColor: "black", color: 'white', textAlign: "center", fontSize: 24}} className="App-header">
                 POWERGRID BILL UTILITY
             </header> */}
+            <Box sx={{ height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <Box sx={{ width: 500, height: 500, border: "solid 1px grey" }}>
+                    <UploadFileButton handleProcessing={handleTicketProcessing} />
+                </Box>
+            </Box>
 
-            <Box>
-                <input type="file" id="csvFileInput" onChange={(e) => {
+            {/* <input type="file" id="csvFileInput" onChange={(e) => {
                     setCsvFile(() => {
                         if (e.target.files) {
                             return e.target.files[0]
                         }
                     });
                 }} />
-                <button onClick={handleProcessing}>Process Csv</button>
-            </Box>
+                <button onClick={handleProcessing}>Process Csv</button> */}
+
 
 
             {/* <Box sx={{
@@ -140,7 +95,7 @@ asd
             }} />
             <button onClick={handleLinkProcessing}>Process Csv</button> */}
             {/* <UploadLinks /> */}
-        </div>
+        </Container>
     );
 }
 

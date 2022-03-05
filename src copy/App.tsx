@@ -1,4 +1,4 @@
-import Navigation from './Routes/Navigation';
+import Navigation from './screens/Navigation';
 import { store } from './state/store';
 import { Provider } from 'react-redux'
 

@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { TicketObject } from '../utils/utils';
 
 export interface LinkData {
     id: number;
@@ -9,16 +10,18 @@ export interface LinkData {
     alias?: string[];
 }
 
-const initialState: LinkData[] = [];
 
-export const LinkSlice = createSlice({
-    name: 'links',
+
+const initialState: TicketObject[] = [];
+
+export const counterSlice = createSlice({
+    name: 'counter',
     initialState,
     reducers: {
-        updateNetwork: (state, action: PayloadAction<LinkData[]>) => {
+        updateTicketState: (state, action: PayloadAction<TicketObject[]>) => {
             return action.payload;
         },
-        updateOneLink: (state, action: PayloadAction<LinkData>) => {
+        updateOneTicket: (state, action: PayloadAction<TicketObject>) => {
             let item = state.find(s => s.id === action.payload.id);
             if (item) {
                 state[state.indexOf(item)].connectedLinks = action.payload.connectedLinks;
@@ -27,6 +30,6 @@ export const LinkSlice = createSlice({
     },
 });
 
-export const { updateNetwork, updateOneLink } = LinkSlice.actions;
+export const { updateTicketState, updateOneTicket } = counterSlice.actions;
 
-export default LinkSlice.reducer;
+export default counterSlice.reducer;
