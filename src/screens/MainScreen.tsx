@@ -16,14 +16,12 @@ const MainScreen = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const networkArray = useAppSelector(state => state.links);
-    const parsedTickets = useAppSelector(state => state.parsedTickets);
+    // const parsedTickets = useAppSelector(state => state.parsedTickets);
 
     // const handleProcessing = async () => {
     //     const tickets = await processCsv(csvFile);
     //     setTicketArray(tickets);
     // }
-
-    console.log(parsedTickets);
 
     const handleTicketProcessing = async (ticketFile: File) => {
         const tickets = await processCsv(ticketFile);
