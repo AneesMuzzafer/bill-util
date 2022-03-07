@@ -13,7 +13,7 @@ interface ILinkRow {
 }
 
 
-const LinkRow: React.FC<ILinkRow> = ({ thisTicket, onSelect }) => {
+const TicketMapRow: React.FC<ILinkRow> = ({ thisTicket, onSelect }) => {
 
     const networkArray: LinkData[] = useAppSelector(state => state.links);
 
@@ -60,9 +60,10 @@ const LinkRow: React.FC<ILinkRow> = ({ thisTicket, onSelect }) => {
                     id="combo-box-demo"
                     options={networkArray}
                     sx={{ width: 300 }}
-                    onChange={(event, newValue: LinkData) => {
-                        newValue && onSelect(newValue);
-                    }}
+                    value={networkArray[thisTicket.firstMatchRefIndex]}
+                    // onChange={(event, newValue: LinkData | undefined) => {
+                    //     newValue && onSelect(newValue);
+                    // }}
                     renderInput={(params) => <TextField {...params} size="small" label="Link" />}
                 />
                 {/* <Button variant="contained" size="small" sx={{ mx: 2 }} 
@@ -73,4 +74,4 @@ const LinkRow: React.FC<ILinkRow> = ({ thisTicket, onSelect }) => {
     );
 }
 
-export default LinkRow;
+export default TicketMapRow;

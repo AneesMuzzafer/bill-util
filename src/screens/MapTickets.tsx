@@ -1,4 +1,5 @@
 import { Container } from "@mui/material";
+import TicketMapRow from "../components/ticketMapRow";
 import { useAppSelector } from "../state/hook";
 
 const MapTickets = () => {
@@ -12,9 +13,11 @@ const MapTickets = () => {
     console.log(completeMatchedLinks, partialMatchedLinks, unmatchedLinks);
 
     return (
-    <Container sx={{display: "flex"}}>
-        <p></p>
-    </Container>
+        <Container sx={{ display: "flex", flexDirection: "column" }}>
+            {parsedLinks.map((link, index) =>
+                <TicketMapRow key={index} thisTicket={link} onSelect={() => alert("selected" + link.linkname)} />
+            )}
+        </Container>
     );
 }
 
