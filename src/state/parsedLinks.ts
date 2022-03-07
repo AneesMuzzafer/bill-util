@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 export interface ParsedTicket{
     id: number;
     linkname: string;
+    ticketDesc: string;
     completeMatch: boolean;
     partialMatch: boolean;
     ticketId: string;

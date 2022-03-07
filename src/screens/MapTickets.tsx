@@ -5,9 +5,15 @@ const MapTickets = () => {
 
     const parsedLinks = useAppSelector(state => state.parsedTickets);
 
+    const completeMatchedLinks = parsedLinks.filter(l => l.partialMatch && l.completeMatch);
+    const partialMatchedLinks = parsedLinks.filter(l => l.partialMatch && !l.completeMatch);
+    const unmatchedLinks = parsedLinks.filter(l => !l.partialMatch && !l.completeMatch);
+
+    console.log(completeMatchedLinks, partialMatchedLinks, unmatchedLinks);
+
     return (
     <Container sx={{display: "flex"}}>
-        <p>Welcome</p>
+        <p></p>
     </Container>
     );
 }
