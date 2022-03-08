@@ -60,9 +60,9 @@ const LinkRow: React.FC<ILinkRow> = ({ thisTicket, onSelect }) => {
                     id="combo-box-demo"
                     options={networkArray}
                     sx={{ width: 300 }}
-                    onChange={(event, newValue: LinkData) => {
-                        newValue && onSelect(newValue);
-                    }}
+                    // onChange={(event, newValue: LinkData) => {
+                    //     newValue && onSelect(newValue);
+                    // }}
                     renderInput={(params) => <TextField {...params} size="small" label="Link" />}
                 />
                 {/* <Button variant="contained" size="small" sx={{ mx: 2 }} 
