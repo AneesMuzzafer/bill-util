@@ -33,7 +33,7 @@ export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) =>
                     parsedResult.push({
                         id: id++,
                         linkname: link,
-                        ticketDesc: ticket.title,
+                        ticketDesc: ticket.Title,
                         completeMatch: true,
                         partialMatch: true,
                         ticketId: ticket.ID,
@@ -45,7 +45,7 @@ export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) =>
                     parsedResult.push({
                         id: id++,
                         linkname: link,
-                        ticketDesc: ticket.title,
+                        ticketDesc: ticket.Title,
                         completeMatch: false,
                         partialMatch: true,
                         ticketId: ticket.ID,
@@ -56,7 +56,7 @@ export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) =>
                     parsedResult.push({
                         id: id++,
                         linkname: link,
-                        ticketDesc: ticket.title,
+                        ticketDesc: ticket.Title,
                         completeMatch: false,
                         partialMatch: false,
                         ticketId: ticket.ID,
