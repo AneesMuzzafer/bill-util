@@ -22,6 +22,9 @@ export const processCsv = async (csvFile: object): Promise<TicketObject[]> => {
                 const rows = data?.slice(data.indexOf("\n") + 1, -1).split("\n");
 
                 ticketArray = rows.map(row => {
+
+                    console.log("row", )
+
                     const ticket: TicketObject = {};
                     const ticketFields = row.replace(/['"]+/g, '').split(",");
                     headers.forEach((header, index) => {

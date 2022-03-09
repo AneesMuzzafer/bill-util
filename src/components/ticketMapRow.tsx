@@ -3,26 +3,28 @@ import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import Paper from '@mui/material/Paper';
 import { LinkData } from "../state/links";
-import { Autocomplete, Button, TextField } from "@mui/material";
+import { Autocomplete, TextField } from "@mui/material";
 import { ParsedTicket } from "../state/parsedLinks";
 import { useAppSelector } from "../state/hook";
 
 interface ILinkRow {
     thisTicket: ParsedTicket;
-    onSelect: (newValue: LinkData) => void;
+    onSelect: (ticket: ParsedTicket, newRefIndex: number) => void;
+    unmatched?: boolean;
 }
 
 
-const TicketMapRow: React.FC<ILinkRow> = ({ thisTicket, onSelect }) => {
+const TicketMapRow: React.FC<ILinkRow> = ({ thisTicket, onSelect, unmatched = false }) => {
 
     const networkArray: LinkData[] = useAppSelector(state => state.links);
-
+    const [selected, setSelected] = React.useState<LinkData>(!unmatched ? networkArray[thisTicket.firstMatchRefIndex] : networkArray[1]);
+    
 
     return (
         <Paper
             sx={{
                 display: "flex",
-                justifyContent: "space-between",
+                justifyContent: "flex-end",
                 alignItems: "center",
                 p: 1,
                 my: 2,
@@ -33,13 +35,13 @@ const TicketMapRow: React.FC<ILinkRow> = ({ thisTicket, onSelect }) => {
             <Box
                 sx={{
                     display: 'flex',
-                    justifyContent: 'flex-start',
+                    justifyContent: 'flex-end',
                     flexWrap: 'wrap',
                     listStyle: 'none',
                 }}>
                 <Chip label={thisTicket.id} color="primary" variant="outlined" sx={{ fontWeight: "bold", marginRight: 2 }} />
-                <Chip label={thisTicket.linkname} color="primary" variant="filled" sx={{ fontWeight: "bold", marginRight: 2 }} />
                 <Chip label={thisTicket.ticketDesc} color="primary" variant="outlined" sx={{ fontWeight: "bold", marginRight: 2 }} />
+                <Chip label={thisTicket.linkname} color="primary" variant="filled" sx={{ fontWeight: "bold", marginRight: 2 }} />
                 {/* {conLinks && conLinks.map((name, index) => (
                     <li key={index} style={{ margin: 0, padding: 0 }}>
                         <Chip
@@ -60,14 +62,11 @@ const TicketMapRow: React.FC<ILinkRow> = ({ thisTicket, onSelect }) => {
                     id="combo-box-demo"
                     options={networkArray}
                     sx={{ width: 300 }}
-<<<<<<< HEAD
-                    // onChange={(event, newValue: LinkData) => {
-=======
-                    value={networkArray[thisTicket.firstMatchRefIndex]}
-                    // onChange={(event, newValue: LinkData | undefined) => {
->>>>>>> c1f64c0fab97199818034f54138c750a878bb6eb
-                    //     newValue && onSelect(newValue);
-                    // }}
+                    value={selected}
+                    onChange={(event, newValue: LinkData | null) => {
+                        newValue && setSelected(newValue);
+                        newValue && onSelect(thisTicket, networkArray.indexOf(newValue));
+                    }}
                     renderInput={(params) => <TextField {...params} size="small" label="Link" />}
                 />
                 {/* <Button variant="contained" size="small" sx={{ mx: 2 }} 

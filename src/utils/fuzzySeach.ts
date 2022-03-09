@@ -1,11 +1,17 @@
 import { TicketObject } from "./utils";
 import { LinkData } from "../state/links";
 import Fuse from 'fuse.js'
-
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { ParsedTicket } from "../state/parsedLinks";
+
+dayjs.extend(customParseFormat)
+
 
 export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) => {
     let id = 0;
+    console.log(ticketArray, ticketArray[0]["Opening date"])
+
     const fuse = new Fuse(links, {
         keys: [
             {
@@ -28,8 +34,7 @@ export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) =>
             parsedLinks.forEach((link: string, index) => {
 
                 const match = fuse.search(link.trim());
-
-                if (match.length > 0 && match[0].score && match[0].score < 0.4) {
+                if (match.length > 0 && match[0].score && match[0].score < 0.3) {
                     parsedResult.push({
                         id: id++,
                         linkname: link,
@@ -38,10 +43,14 @@ export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) =>
                         partialMatch: true,
                         ticketId: ticket.ID,
                         firstMatchRefIndex: match[0].refIndex,
+                        ticketStartedAt: dayjs(ticket["Opening date"], "DD-MM-YYYY hh:mm").toDate(),
+                        ticketResolvedAt: dayjs(ticket["Resolution date"], "DD-MM-YYYY hh:mm").toDate(),
+                        trafficAffected: false,
+                        trafficAffectingStatusInTicket: false,
                         matches: match
                     });
 
-                } else if (match.length > 0 && match[0].score && match[0].score > 0.4) {
+                } else if (match.length > 0 && match[0].score && match[0].score > 0.3) {
                     parsedResult.push({
                         id: id++,
                         linkname: link,
@@ -50,6 +59,10 @@ export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) =>
                         partialMatch: true,
                         ticketId: ticket.ID,
                         firstMatchRefIndex: match[0].refIndex,
+                        ticketStartedAt: dayjs(ticket["Opening date"], "DD-MM-YYYY hh:mm").toDate(),
+                        ticketResolvedAt: dayjs(ticket["Resolution date"], "DD-MM-YYYY hh:mm").toDate(),
+                        trafficAffected: false,
+                        trafficAffectingStatusInTicket: false,
                         matches: match
                     });
                 } else {
@@ -61,6 +74,10 @@ export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) =>
                         partialMatch: false,
                         ticketId: ticket.ID,
                         firstMatchRefIndex: -1,
+                        ticketStartedAt: dayjs(ticket["Opening date"], "DD-MM-YYYY hh:mm").toDate(),
+                        ticketResolvedAt: dayjs(ticket["Resolution date"], "DD-MM-YYYY hh:mm").toDate(),
+                        trafficAffected: false,
+                        trafficAffectingStatusInTicket: false,
                         matches: []
                     });
                 }
@@ -69,6 +86,8 @@ export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) =>
         }
 
     });
+
+    console.log(parsedResult);
 
     return parsedResult;
 }

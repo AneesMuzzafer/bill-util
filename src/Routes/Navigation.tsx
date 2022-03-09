@@ -6,6 +6,7 @@ import MainScreen from "../screens/MainScreen";
 import { useAppDispatch } from "../state/hook";
 import { updateNetwork } from "../state/links";
 import MapTickets from "../screens/MapTickets";
+import TrafficAffecting from "../screens/TrafficAffecting";
 
 export default function Navigation() {
 
@@ -22,7 +23,10 @@ export default function Navigation() {
             <TopBar />
             <Routes>
                 <Route path="/" element={<MainScreen />} />
-                <Route path="/map" element={<MapTickets />} />
+                <Route path="/map" element={<MapTickets />}>
+                    {/* <Route path="/" element={<MapTickets />} /> */}
+                </Route>
+                <Route path="/traffic" element={<TrafficAffecting />} />
                 <Route path="/links" element={<NetworkEditor />} />
                 <Route path="/li" element={<div>abc</div>} />
             </Routes>

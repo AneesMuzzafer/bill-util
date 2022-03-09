@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-
-export interface ParsedTicket{
+export interface ParsedTicket {
     id: number;
     linkname: string;
     ticketDesc: string;
@@ -8,6 +7,10 @@ export interface ParsedTicket{
     partialMatch: boolean;
     ticketId: string;
     firstMatchRefIndex: number;
+    ticketStartedAt: Date;
+    ticketResolvedAt: Date;
+    trafficAffected: boolean;
+    trafficAffectingStatusInTicket: boolean;
     matches: any[];
 }
 
@@ -21,27 +24,43 @@ export const parsedLinkSlice = createSlice({
         updateParsedState: (state, action: PayloadAction<ParsedTicket[]>) => {
             return action.payload;
         },
-        updateOneTicket: (state, action: PayloadAction<ParsedTicket>) => {
-            let item = state.find(s => s.id === action.payload.id);
+        updateOneTicket: (state, action: PayloadAction<{ ticket: ParsedTicket, networkIndex: number }>) => {
+            let item = state.find(s => s.id === action.payload.ticket.id);
             if (item) {
-                state[state.indexOf(item)] = action.payload;
+                state[state.indexOf(item)].firstMatchRefIndex = action.payload.networkIndex;
+                // state[state.indexOf(item)].completeMatch = true;
             }
         },
-        // getAllMatched: (state) => {
-        //     return state 
-        // },
-        // getAllPartialMatched: () => {
+        updateCompleteFlag: (state, action: PayloadAction<ParsedTicket[]>) => {
+            action.payload.forEach(p => {
+                let item = state.find(s => s.id === p.id);
+                if (item) {
+                    // state[state.indexOf(item)].firstMatchRefIndex = action.payload.networkIndex;
+                    state[state.indexOf(item)].completeMatch = true;
+                }
+            });
 
-        // },
-        // getAllUnmatched: () => {
+            // let item = state.find(s => s.id === action.payload.ticket.id);
+            // if (item) {
+            //     state[state.indexOf(item)].firstMatchRefIndex = action.payload.networkIndex;
+            //     state[state.indexOf(item)].completeMatch = true;
+            // }
+        },
+        updateOneCompleteFlag: (state, action: PayloadAction<ParsedTicket>) => {
+                let item = state.find(s => s.id === action.payload.id);
+                if (item) {
+                    state[state.indexOf(item)].completeMatch = true;
+                }
 
-        // },
-        // areAllMatched: () => {
-
-        // }
+            // let item = state.find(s => s.id === action.payload.ticket.id);
+            // if (item) {
+            //     state[state.indexOf(item)].firstMatchRefIndex = action.payload.networkIndex;
+            //     state[state.indexOf(item)].completeMatch = true;
+            // }
+        },
     },
 });
 
-export const { updateParsedState, updateOneTicket } = parsedLinkSlice.actions;
+export const { updateParsedState, updateOneTicket, updateCompleteFlag } = parsedLinkSlice.actions;
 
 export default parsedLinkSlice.reducer;
