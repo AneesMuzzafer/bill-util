@@ -52,10 +52,10 @@ const MapTickets = () => {
                         flag = false;
                     }
                 });
-                if (!flag) {
-                    alert("Match All links first");
-                    break;
-                };
+                // if (!flag) {
+                //     alert("Match All links first");
+                //     break;
+                // };
                 dispatch(updateCompleteFlag(partialMatchedLinks));
                 setLinkArray(unmatchedLinks);
                 setStage("unmatched");
@@ -67,10 +67,10 @@ const MapTickets = () => {
                         flag = false;
                     }
                 });
-                if (!flag) {
-                    alert("Match All links first");
-                    break;
-                };
+                // if (!flag) {
+                //     alert("Match All links first");
+                //     break;
+                // };
                 dispatch(updateCompleteFlag(unmatchedLinks));
                 navigate("/traffic");
                 break;

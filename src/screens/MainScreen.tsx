@@ -28,6 +28,8 @@ const MainScreen = () => {
         setTicketArray(tickets);
     }
 
+    console.log(ticketArray);
+
     React.useEffect(() => {
         if (ticketArray.length > 0 && networkArray) {
             // parsedResult = doFuzzySearch(ticketArray, networkArray);

@@ -10,8 +10,6 @@ dayjs.extend(customParseFormat)
 
 export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) => {
     let id = 0;
-    console.log(ticketArray, ticketArray[0]["Opening date"])
-
     const fuse = new Fuse(links, {
         keys: [
             {
@@ -31,6 +29,11 @@ export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) =>
             const clearedTitle = ticket.Title.replace(/ *\([^)]*\) */g, "");
             const parsedLinks = clearedTitle.split(/[-;/\\/]+/);
 
+            const openingDate = dayjs(ticket["Opening date"], "DD-MM-YYYY hh:mm").valueOf();
+            const closingDate = dayjs(ticket["Resolution date"], "DD-MM-YYYY hh:mm").valueOf();
+
+            console.log(ticket.Description, ticket.Description.toUpperCase().includes("{NO}"))
+
             parsedLinks.forEach((link: string, index) => {
 
                 const match = fuse.search(link.trim());
@@ -43,10 +46,10 @@ export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) =>
                         partialMatch: true,
                         ticketId: ticket.ID,
                         firstMatchRefIndex: match[0].refIndex,
-                        ticketStartedAt: dayjs(ticket["Opening date"], "DD-MM-YYYY hh:mm").toDate(),
-                        ticketResolvedAt: dayjs(ticket["Resolution date"], "DD-MM-YYYY hh:mm").toDate(),
+                        ticketStartedAt: openingDate,
+                        ticketResolvedAt: closingDate,
                         trafficAffected: false,
-                        trafficAffectingStatusInTicket: false,
+                        trafficAffectingStatusInTicket: !ticket.Description.toUpperCase().includes("{NO}") ,
                         matches: match
                     });
 
@@ -59,10 +62,10 @@ export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) =>
                         partialMatch: true,
                         ticketId: ticket.ID,
                         firstMatchRefIndex: match[0].refIndex,
-                        ticketStartedAt: dayjs(ticket["Opening date"], "DD-MM-YYYY hh:mm").toDate(),
-                        ticketResolvedAt: dayjs(ticket["Resolution date"], "DD-MM-YYYY hh:mm").toDate(),
+                        ticketStartedAt: openingDate,
+                        ticketResolvedAt: closingDate,
                         trafficAffected: false,
-                        trafficAffectingStatusInTicket: false,
+                        trafficAffectingStatusInTicket: !ticket.Description.toUpperCase().includes("{NO}") ,
                         matches: match
                     });
                 } else {
@@ -74,10 +77,10 @@ export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) =>
                         partialMatch: false,
                         ticketId: ticket.ID,
                         firstMatchRefIndex: -1,
-                        ticketStartedAt: dayjs(ticket["Opening date"], "DD-MM-YYYY hh:mm").toDate(),
-                        ticketResolvedAt: dayjs(ticket["Resolution date"], "DD-MM-YYYY hh:mm").toDate(),
+                        ticketStartedAt: openingDate,
+                        ticketResolvedAt: closingDate,
                         trafficAffected: false,
-                        trafficAffectingStatusInTicket: false,
+                        trafficAffectingStatusInTicket: !ticket.Description.toUpperCase().includes("{NO}") ,
                         matches: []
                     });
                 }
@@ -86,8 +89,6 @@ export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) =>
         }
 
     });
-
-    console.log(parsedResult);
 
     return parsedResult;
 }

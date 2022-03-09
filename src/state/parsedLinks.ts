@@ -7,8 +7,8 @@ export interface ParsedTicket {
     partialMatch: boolean;
     ticketId: string;
     firstMatchRefIndex: number;
-    ticketStartedAt: Date;
-    ticketResolvedAt: Date;
+    ticketStartedAt: number;
+    ticketResolvedAt: number;
     trafficAffected: boolean;
     trafficAffectingStatusInTicket: boolean;
     matches: any[];
