@@ -7,6 +7,7 @@ import { useAppDispatch } from "../state/hook";
 import { updateNetwork } from "../state/links";
 import MapTickets from "../screens/MapTickets";
 import TrafficAffecting from "../screens/TrafficAffecting";
+import BillData from "../screens/BillData";
 
 export default function Navigation() {
 
@@ -27,6 +28,7 @@ export default function Navigation() {
                     {/* <Route path="/" element={<MapTickets />} /> */}
                 </Route>
                 <Route path="/traffic" element={<TrafficAffecting />} />
+                <Route path="/billData" element={<BillData />} />
                 <Route path="/links" element={<NetworkEditor />} />
                 <Route path="/li" element={<div>abc</div>} />
             </Routes>
