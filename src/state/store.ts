@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
+import billReducer from './Bill'
 import linkReducer from "./links"
 import parsedTicketReducer from "./parsedLinks"
 
 export const store = configureStore({
   reducer: {
       links: linkReducer,
-      parsedTickets: parsedTicketReducer
+      parsedTickets: parsedTicketReducer,
+      billItems: billReducer
   },
 })
 

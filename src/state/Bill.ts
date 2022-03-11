@@ -1,32 +1,32 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-export interface LinkData {
+export interface BillData {
     id: number;
     label: string;
     region?: string;
     lm?: string;
-    connectedLinks?: string[];
+    connectedBills?: string[];
     alias?: string[];
 }
 
-const initialState: LinkData[] = [];
+const initialState: BillData[] = [];
 
-export const LinkSlice = createSlice({
-    name: 'links',
+export const BillSlice = createSlice({
+    name: 'bills',
     initialState,
     reducers: {
-        updateNetwork: (state, action: PayloadAction<LinkData[]>) => {
+        updateBillState: (state, action: PayloadAction<BillData[]>) => {
             return action.payload;
         },
-        updateOneLink: (state, action: PayloadAction<LinkData>) => {
+        updateOneBill: (state, action: PayloadAction<BillData>) => {
             let item = state.find(s => s.id === action.payload.id);
             if (item) {
-                state[state.indexOf(item)].connectedLinks = action.payload.connectedLinks;
+                state[state.indexOf(item)].connectedBills = action.payload.connectedBills;
             }
         },
     },
 });
 
-export const { updateNetwork, updateOneLink } = LinkSlice.actions;
+export const { updateBillState, updateOneBill } = BillSlice.actions;
 
-export default LinkSlice.reducer;
+export default BillSlice.reducer;

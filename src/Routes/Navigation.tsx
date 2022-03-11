@@ -8,7 +8,7 @@ import { updateNetwork } from "../state/links";
 import MapTickets from "../screens/MapTickets";
 import TrafficAffecting from "../screens/TrafficAffecting";
 import BillData from "../screens/BillData";
-
+import BillEditor from "../screens/BillItemEditor";
 export default function Navigation() {
 
     const dispatch = useAppDispatch();
@@ -30,6 +30,7 @@ export default function Navigation() {
                 <Route path="/traffic" element={<TrafficAffecting />} />
                 <Route path="/billData" element={<BillData />} />
                 <Route path="/links" element={<NetworkEditor />} />
+                <Route path="/bills" element={<BillEditor />} />
                 <Route path="/li" element={<div>abc</div>} />
             </Routes>
         </BrowserRouter>

@@ -23,7 +23,8 @@ export default function TopBar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             POWERGRID BILL UTILITY
           </Typography>
-          <Button color="inherit" href="/links">Set Links</Button>
+          <Button color="inherit" href="/links">Network</Button>
+          <Button color="inherit" href="/bills">Bill Items</Button>
         </Toolbar>
       </AppBar>
     </Box>
