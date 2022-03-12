@@ -38,6 +38,19 @@ const LinkRow: React.FC<ILinkRow> = ({ thisLink, conLinks }) => {
                 }}>
                 <Chip label={thisLink.id} color="primary" variant="outlined" sx={{ fontWeight: "bold", marginRight: 2 }} />
                 <Chip label={thisLink.label} color="primary" variant="filled" sx={{ fontWeight: "bold", marginRight: 2 }} />
+                <Chip label={thisLink.lm} color="primary" variant="filled" sx={{ fontWeight: "bold", marginRight: 2 }} />
+                {thisLink.cps && thisLink.cps.map((name, index) => (
+                    <li key={index} style={{ margin: 0, padding: 0 }}>
+                        <Chip
+                            sx={{ marginX: 0.5 }}
+                            label={name}
+                            color="primary"
+                            variant="outlined"
+                            // onDelete={() => handleDelete(data)}
+                        />
+                    </li>
+                )
+                )}
                 {conLinks && conLinks.map((name, index) => (
                     <li key={index} style={{ margin: 0, padding: 0 }}>
                         <Chip

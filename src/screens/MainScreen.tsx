@@ -28,7 +28,7 @@ const MainScreen = () => {
         setTicketArray(tickets);
     }
 
-    console.log(ticketArray);
+    // console.log(ticketArray);
 
     React.useEffect(() => {
         if (ticketArray.length > 0 && networkArray) {

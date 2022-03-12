@@ -1,7 +1,9 @@
 import React from "react";
-import { useAppSelector } from "../state/hook";
+import { useAppDispatch, useAppSelector } from "../state/hook";
 
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+
+import { addDowntime, DownTime } from "../state/Bill";
 
 const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 90 },
@@ -51,8 +53,41 @@ const rows = [
 const BillData = () => {
 
     const parsedTickets = useAppSelector(state => state.parsedTickets);
+    const networkArray = useAppSelector(state => state.links);
+    const billData = useAppSelector(state => state.billItems);
 
-    console.log("inBillData", parsedTickets);
+    const dispatch = useAppDispatch();
+    console.log(parsedTickets);
+    console.log(billData);
+
+    React.useEffect(() => {
+        parsedTickets.forEach((ticket) => {
+            if (networkArray[ticket.firstMatchRefIndex].lm !== "sanguine" || !ticket.trafficAffected) return;
+
+            networkArray[ticket.firstMatchRefIndex].cps.forEach(cp => {
+
+                const item = billData.find(bi => bi.cpNumber === cp);
+                if (item) {
+                    const itemIndex = billData.indexOf(item);
+
+                    console.log(networkArray[itemIndex].label, ticket.linkname)
+
+                    dispatch(addDowntime({
+                        itemIndex,
+                        downtimeItem: {
+                            id: ticket.id,
+                            startedAt: ticket.ticketStartedAt,
+                            resolvedAt: ticket.ticketResolvedAt,
+                            downtime: 0
+                        }
+                    }));
+                }
+            });
+
+        });
+    }, []);
+
+    // console.log("inBillData", parsedTickets);
 
     return (
         <>

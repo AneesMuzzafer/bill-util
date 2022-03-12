@@ -14,6 +14,8 @@ const BillEditor = () => {
         const billData = await processBillCsv(billFile);
         dispatch(updateBillState(billData));
         localStorage.setItem("bill", JSON.stringify(billData));
+
+        console.log("stored", billData)
     }
 
     return (
@@ -27,7 +29,7 @@ const BillEditor = () => {
                     {
                         billItems && billItems.map((item) => 
                               <div key={item.id} style={{ border: "solid 1px red" }}>
-                                  {item.customerName}
+                                  {item.customerName} {item.cpNumber} {item.unitRate} {item.amount}
                                 {/* {Object.keys(item).map(i => {
                                 return <p key={i}>{item} </p> 
                             })} */}

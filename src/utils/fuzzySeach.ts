@@ -32,8 +32,6 @@ export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) =>
             const openingDate = dayjs(ticket["Opening date"], "DD-MM-YYYY hh:mm").valueOf();
             const closingDate = dayjs(ticket["Resolution date"], "DD-MM-YYYY hh:mm").valueOf();
 
-            console.log(ticket.Description, ticket.Description.toUpperCase().includes("{NO}"))
-
             parsedLinks.forEach((link: string, index) => {
 
                 const match = fuse.search(link.trim());

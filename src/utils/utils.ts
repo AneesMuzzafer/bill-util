@@ -74,9 +74,10 @@ export const processNetworkCsv = async (csvFile: object): Promise<LinkData[]> =>
                         id: parseInt(linkFields[0]),
                         label: linkFields[1],
                         region: linkFields[2],
-                        lm: linkFields[3],
-                        connectedLinks: linkFields[4]?.split(";"),
-                        alias: linkFields[5]?.split(";")
+                        cps: linkFields[3]?.split(";").map(item => parseInt(item, 10)),
+                        lm: linkFields[4],
+                        connectedLinks: linkFields[5]?.split(";"),
+                        alias: linkFields[6]?.split(";")
                     }
                 });
             }

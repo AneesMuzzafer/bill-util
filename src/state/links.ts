@@ -4,6 +4,7 @@ export interface LinkData {
     id: number;
     label: string;
     region?: string;
+    cps: number[];
     lm?: string;
     connectedLinks?: string[];
     alias?: string[];

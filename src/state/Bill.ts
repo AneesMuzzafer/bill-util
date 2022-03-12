@@ -28,6 +28,11 @@ export interface BillData {
     downtimes: DownTime[];
 }
 
+interface AddDT {
+    itemIndex: number;
+    downtimeItem: DownTime;
+}
+
 const initialState: BillData[] = [];
 
 export const BillSlice = createSlice({
@@ -43,9 +48,12 @@ export const BillSlice = createSlice({
             //     state[state.indexOf(item)].connectedBills = action.payload.connectedBills;
             // }
         },
+        addDowntime: (state, action: PayloadAction<AddDT>) => {
+            state[action.payload.itemIndex].downtimes = [...state[action.payload.itemIndex].downtimes, action.payload.downtimeItem];
+        }
     },
 });
 
-export const { updateBillState, updateOneBill } = BillSlice.actions;
+export const { updateBillState, updateOneBill, addDowntime } = BillSlice.actions;
 
 export default BillSlice.reducer;
