@@ -9,6 +9,7 @@ import MapTickets from "../screens/MapTickets";
 import TrafficAffecting from "../screens/TrafficAffecting";
 import BillData from "../screens/BillData";
 import BillEditor from "../screens/BillItemEditor";
+import { updateBillState } from "../state/Bill";
 export default function Navigation() {
 
     const dispatch = useAppDispatch();
@@ -16,6 +17,9 @@ export default function Navigation() {
     React.useEffect(() => {
         const dat = localStorage.getItem("links");
         dispatch(updateNetwork(JSON.parse(dat as string)));
+
+        const bill = localStorage.getItem("bill");
+        dispatch(updateBillState(JSON.parse(bill as string)));
 
     }, [dispatch]);
 

@@ -90,7 +90,7 @@ export const processNetworkCsv = async (csvFile: object): Promise<LinkData[]> =>
 
 export const processBillCsv = async (csvFile: object): Promise<BillData[]> => {
     const promise = new Promise<BillData[]>((res, rej) => {
-        let linkDataArray: BillData[] = [];
+        let billDataArray: BillData[] = [];
         const reader = new FileReader();
 
         reader.readAsText(csvFile as Blob);
@@ -98,39 +98,34 @@ export const processBillCsv = async (csvFile: object): Promise<BillData[]> => {
             const data = e.target?.result?.toString();
 
             if (data) {
-                // const headers = data.slice(0, data.indexOf("\n")).replace(/['"]+/g, '').slice(0, -1).split(",");
-
-                // let flag = true;
-                // headers.forEach(header => {
-                //     if (["id", "label", "region", "lm", "connectedLinks", "alias"].includes(header)) {
-                //         console.log("Correct Data");
-                //     }
-                //     else {
-                //         console.log("Wrong Data");
-                //         flag = false;
-                //         return;
-                //     }
-                // }
-                // );
-
-                // if (!flag) return;
-
                 const rows = data?.slice(data.indexOf("\n") + 1, -1).split("\n");
 
-                linkDataArray = rows.map(row => {
+                billDataArray = rows.map(row => {
                     const linkFields = row.replace(/['"]+/g, '').split(",");
                     return {
                         id: parseInt(linkFields[0]),
-                        label: linkFields[1],
-                        region: linkFields[2],
-                        lm: linkFields[3],
-                        connectedLinks: linkFields[4]?.split(";"),
-                        alias: linkFields[5]?.split(";")
+                        customerName: linkFields[1],
+                        cpNumber: parseInt(linkFields[2]),
+                        capacity: linkFields[3],
+                        linkFrom: linkFields[4],
+                        linkTo: linkFields[5],
+                        doco: linkFields[6],
+                        lastMile: linkFields[7],
+                        annualInvoiceValue: parseInt(linkFields[8]),
+                        sharePercent: parseInt(linkFields[9]),
+                        unitRate: parseInt(linkFields[10]),
+                        numberOfDays: parseInt(linkFields[11]),
+                        downtime: parseInt(linkFields[12]),
+                        uptimePercent: parseInt(linkFields[13]),
+                        penaltySlab: parseInt(linkFields[14]),
+                        penaltyHours: parseInt(linkFields[15]),
+                        amount: parseInt(linkFields[16]),
+                        downtimes: [],
                     }
                 });
             }
 
-            res(linkDataArray);
+            res(billDataArray);
         }
     });
     return promise;
