@@ -57,9 +57,9 @@ const BillData = () => {
     const billData = useAppSelector(state => state.billItems);
 
     const dispatch = useAppDispatch();
-    console.log(parsedTickets);
+    // console.log(parsedTickets);
     console.log(billData);
-
+    
     React.useEffect(() => {
         parsedTickets.forEach((ticket) => {
             if (networkArray[ticket.firstMatchRefIndex].lm !== "sanguine" || !ticket.trafficAffected) return;
@@ -70,7 +70,7 @@ const BillData = () => {
                 if (item) {
                     const itemIndex = billData.indexOf(item);
 
-                    console.log(networkArray[itemIndex].label, ticket.linkname)
+                    // console.log(networkArray[itemIndex].label, ticket.linkname)
 
                     dispatch(addDowntime({
                         itemIndex,
@@ -78,7 +78,7 @@ const BillData = () => {
                             id: ticket.id,
                             startedAt: ticket.ticketStartedAt,
                             resolvedAt: ticket.ticketResolvedAt,
-                            downtime: 0
+                            downtime: ticket.ticketResolvedAt - ticket.ticketStartedAt,
                         }
                     }));
                 }
@@ -86,6 +86,7 @@ const BillData = () => {
 
         });
     }, []);
+
 
     // console.log("inBillData", parsedTickets);
 

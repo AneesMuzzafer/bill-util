@@ -38,6 +38,9 @@ const MainScreen = () => {
         }
     }, [ticketArray, networkArray, navigate, dispatch]);
 
+    // const gt = useAppSelector(state => getTotalDownTime(state));
+    // console.log(gt);
+
     return (
         <Container >
             {/* <header style={{height: 100, backgroundColor: "black", color: 'white', textAlign: "center", fontSize: 24}} className="App-header">

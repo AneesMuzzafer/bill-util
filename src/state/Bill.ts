@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { RootState } from './store';
 
 
 export interface DownTime {
@@ -50,6 +51,11 @@ export const BillSlice = createSlice({
         },
         addDowntime: (state, action: PayloadAction<AddDT>) => {
             state[action.payload.itemIndex].downtimes = [...state[action.payload.itemIndex].downtimes, action.payload.downtimeItem];
+            state[action.payload.itemIndex].downtime = calculateDownTime(state[action.payload.itemIndex].downtimes);
+            state[action.payload.itemIndex].uptimePercent = calculateUptimePercent(state[action.payload.itemIndex].downtime, state[action.payload.itemIndex].numberOfDays);
+            state[action.payload.itemIndex].penaltySlab = getSlab(state[action.payload.itemIndex].uptimePercent, state[action.payload.itemIndex].lastMile);
+            state[action.payload.itemIndex].penaltyHours = calculateDowntimePenalty(state[action.payload.itemIndex].penaltySlab, state[action.payload.itemIndex].downtime);
+            state[action.payload.itemIndex].amount = calculateAmount(state[action.payload.itemIndex].penaltyHours, state[action.payload.itemIndex].unitRate);
         }
     },
 });
@@ -57,3 +63,108 @@ export const BillSlice = createSlice({
 export const { updateBillState, updateOneBill, addDowntime } = BillSlice.actions;
 
 export default BillSlice.reducer;
+
+const calculateDownTime = (downTimeArray: DownTime[]) => {
+    let downTime: number;
+    if (downTimeArray.length > 0) {
+        downTime = downTimeArray.reduce((p, c) => p + c.downtime, 0);
+        if (downTime) {
+            return downTime;
+        } else {
+            return 0;
+        }
+    } else {
+        return 0;
+    }
+
+}
+
+const calculateUptimePercent = (totalDowntime: number, days: number) => {
+    totalDowntime = totalDowntime / 60000;
+    return ((days * 24 * 60) - (totalDowntime)) / (days * 24 * 60);
+}
+
+const getSlab = (uptimePercent: number, linkType: string) => {
+
+    if (linkType === "UG") {
+        if (uptimePercent >= 0.995) {
+            return 0;
+        } else if (uptimePercent < 0.995 && uptimePercent >= 0.99) {
+            return 1;
+        } else if (uptimePercent < 0.99 && uptimePercent >= 0.98) {
+            return 2;
+        } else if (uptimePercent < 0.98 && uptimePercent >= 0.97) {
+            return 3;
+        } else if (uptimePercent < 0.97 && uptimePercent >= 0.96) {
+            return 4;
+        } else if (uptimePercent < 0.96 && uptimePercent >= 0.95) {
+            return 5;
+        } else if (uptimePercent < 0.95 && uptimePercent >= 0.90) {
+            return 6;
+        } else if (uptimePercent < 0.90) {
+            return 7;
+        } else {
+            return -1;
+        }
+    } else if (linkType === "OH") {
+        if (uptimePercent >= 0.995) {
+            return 0;
+        } else if (uptimePercent < 0.995 && uptimePercent >= 0.99) {
+            return 1;
+        } else if (uptimePercent < 0.99 && uptimePercent >= 0.98) {
+            return 2;
+        } else if (uptimePercent < 0.98 && uptimePercent >= 0.97) {
+            return 3;
+        } else if (uptimePercent < 0.97 && uptimePercent >= 0.96) {
+            return 4;
+        } else if (uptimePercent < 0.96 && uptimePercent >= 0.95) {
+            return 5;
+        } else if (uptimePercent < 0.95 && uptimePercent >= 0.90) {
+            return 6;
+        } else if (uptimePercent < 0.90) {
+            return 7;
+        } else {
+            return -1;
+        }
+    } else {
+        return -1;
+
+    }
+}
+
+const calculateDowntimePenalty = (penaltySlab: number, downtime: number) => {
+    switch (penaltySlab) {
+        case 0:
+            return (downtime / 3600000) * 1;
+        case 1:
+            return (downtime / 3600000) * 1.25;
+        case 2:
+            return (downtime / 3600000) * 1.5;
+        case 3:
+            return (downtime / 3600000) * 1.75;
+        case 4:
+            return (downtime / 3600000) * 2;
+        case 5:
+            return (downtime / 3600000) * 2.25;
+        case 6:
+            return (downtime / 3600000) * 2.5;
+        case 7:
+            return (downtime / 3600000) * 3;
+        default:
+            return 0;
+    }
+}
+
+const calculateAmount = (penalty: number, unitRate: number) => {
+    return ((unitRate / 24) * (720 - penalty));
+}
+
+// export const getTotalDownTime = createSelector((state: RootState) => state.billItems[2].downtimes, (arr) => {
+//     if (arr && arr.length > 0) {
+//         let totalDowntime = 0;
+//         arr.forEach(a => { totalDowntime = totalDowntime + a.downtime })
+//         return totalDowntime;
+//     } else {
+//         return "nope"
+//     }
+// });
