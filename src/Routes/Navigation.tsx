@@ -10,6 +10,7 @@ import TrafficAffecting from "../screens/TrafficAffecting";
 import BillData from "../screens/BillData";
 import BillEditor from "../screens/BillItemEditor";
 import { updateBillState } from "../state/Bill";
+import BillDataEditor from "../screens/BillDataEditor";
 export default function Navigation() {
 
     const dispatch = useAppDispatch();
@@ -28,13 +29,12 @@ export default function Navigation() {
             <TopBar />
             <Routes>
                 <Route path="/" element={<MainScreen />} />
-                <Route path="/map" element={<MapTickets />}>
-                    {/* <Route path="/" element={<MapTickets />} /> */}
-                </Route>
+                <Route path="/map" element={<MapTickets />} />
                 <Route path="/traffic" element={<TrafficAffecting />} />
                 <Route path="/billData" element={<BillData />} />
                 <Route path="/links" element={<NetworkEditor />} />
                 <Route path="/bills" element={<BillEditor />} />
+                <Route path="/itemEditor/:id" element={<BillDataEditor />} />
                 <Route path="/li" element={<div>abc</div>} />
             </Routes>
         </BrowserRouter>

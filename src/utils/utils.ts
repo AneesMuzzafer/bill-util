@@ -112,15 +112,15 @@ export const processBillCsv = async (csvFile: object): Promise<BillData[]> => {
                         linkTo: linkFields[5],
                         doco: linkFields[6],
                         lastMile: linkFields[7],
-                        annualInvoiceValue: parseInt(linkFields[8]),
-                        sharePercent: parseInt(linkFields[9]),
-                        unitRate: parseInt(linkFields[10]),
+                        annualInvoiceValue: parseFloat(linkFields[8]),
+                        sharePercent: parseFloat(linkFields[9]),
+                        unitRate: parseFloat(linkFields[10]),
                         numberOfDays: parseInt(linkFields[11]),
-                        downtime: parseInt(linkFields[12]),
-                        uptimePercent: parseInt(linkFields[13]),
+                        downtime: parseFloat(linkFields[12]),
+                        uptimePercent: parseFloat(linkFields[13]),
                         penaltySlab: parseInt(linkFields[14]),
-                        penaltyHours: parseInt(linkFields[15]),
-                        amount: parseInt(linkFields[16]),
+                        penaltyHours: parseFloat(linkFields[15]),
+                        amount: parseFloat(linkFields[16]),
                         downtimes: [],
                     }
                 });
@@ -130,4 +130,11 @@ export const processBillCsv = async (csvFile: object): Promise<BillData[]> => {
         }
     });
     return promise;
+}
+
+const getPenaltyString = (num: number) => {
+    switch (num) {
+        case 0: 
+            return "1"
+    }
 }
