@@ -206,33 +206,33 @@ const BillDataScreen = () => {
 
     React.useEffect(() => {
         // dispatch(clearBillState());
-        parsedTickets.forEach((ticket) => {
-            if (networkArray[ticket.firstMatchRefIndex].lm !== "sanguine" || !ticket.trafficAffected) return;
+        // parsedTickets.forEach((ticket) => {
+        //     if (networkArray[ticket.firstMatchRefIndex].lm !== "sanguine" || !ticket.trafficAffected) return;
 
-            networkArray[ticket.firstMatchRefIndex].cps.forEach(cp => {
+        //     networkArray[ticket.firstMatchRefIndex].cps.forEach(cp => {
 
-                const item = billData.find(bi => bi.cpNumber === cp);
-                if (item) {
-                    const itemIndex = billData.indexOf(item);
+        //         const item = billData.find(bi => bi.cpNumber === cp);
+        //         if (item) {
+        //             const itemIndex = billData.indexOf(item);
 
-                    // console.log(networkArray[itemIndex].label, ticket.linkname)
+        //             // console.log(networkArray[itemIndex].label, ticket.linkname)
 
-                    dispatch(addDowntime({
-                        itemIndex,
-                        downtimeItem: {
-                            id: ticket.id,
-                            startedAt: ticket.ticketStartedAt,
-                            resolvedAt: ticket.ticketResolvedAt,
-                            downtime: ticket.ticketResolvedAt - ticket.ticketStartedAt,
-                        }
-                    }));
+        //             dispatch(addDowntime({
+        //                 itemIndex,
+        //                 downtimeItem: {
+        //                     id: ticket.id,
+        //                     startedAt: ticket.ticketStartedAt,
+        //                     resolvedAt: ticket.ticketResolvedAt,
+        //                     downtime: ticket.ticketResolvedAt - ticket.ticketStartedAt,
+        //                 }
+        //             }));
 
 
 
-                }
-            });
+        //         }
+        //     });
 
-        });
+        // });
 
 
 

@@ -6,7 +6,7 @@ const formatTimestamp = (ts: number) => {
 }
 
 const formatInHours = (ts: number) => {
-    return roundToTwo(ts/3600000) ;
+    return roundToTwo(ts / 3600000);
 }
 
 export const createDowmtimeString = (billdata: BillData[]) => {
@@ -21,13 +21,10 @@ export const createDowmtimeString = (billdata: BillData[]) => {
             csvString = csvString.concat("," + itemNo + "," + formatTimestamp(ticket.startedAt) + "," + formatTimestamp(ticket.resolvedAt) + "," + formatInHours(ticket.resolvedAt - ticket.startedAt) + "\n")
             itemNo++;
         });
-        csvString = csvString.concat(",,,Total," + formatInHours(item.downtime) + " hours\n" );
+        csvString = csvString.concat(",,,Total," + formatInHours(item.downtime) + " hours\n");
         csvString = csvString.concat(",,,,\n");
     });
 
-    console.log(csvString);
     return csvString;
-
 }
 
- 
