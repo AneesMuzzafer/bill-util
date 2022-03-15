@@ -43,11 +43,16 @@ export const BillSlice = createSlice({
         updateBillState: (state, action: PayloadAction<BillData[]>) => {
             return action.payload;
         },
-        updateOneBill: (state, action: PayloadAction<BillData>) => {
-            let item = state.find(s => s.id === action.payload.id);
-            // if (item) {
-            //     state[state.indexOf(item)].connectedBills = action.payload.connectedBills;
-            // }
+        updateOneItem: (state, action: PayloadAction<{ itemIndex: number, days: number, dt: DownTime[] }>) => {
+            console.log(action.payload.dt);
+
+            state[action.payload.itemIndex].downtimes = action.payload.dt;
+            state[action.payload.itemIndex].numberOfDays = action.payload.days;
+            state[action.payload.itemIndex].downtime = calculateDownTime(state[action.payload.itemIndex].downtimes);
+            state[action.payload.itemIndex].uptimePercent = calculateUptimePercent(state[action.payload.itemIndex].downtime, state[action.payload.itemIndex].numberOfDays);
+            state[action.payload.itemIndex].penaltySlab = getSlab(state[action.payload.itemIndex].uptimePercent, state[action.payload.itemIndex].lastMile);
+            state[action.payload.itemIndex].penaltyHours = calculateDowntimePenalty(state[action.payload.itemIndex].penaltySlab, state[action.payload.itemIndex].downtime);
+            state[action.payload.itemIndex].amount = calculateAmount(state[action.payload.itemIndex].penaltyHours, state[action.payload.itemIndex].unitRate, state[action.payload.itemIndex].numberOfDays);
         },
         clearBillState: (state) => {
             state.forEach(item => item.downtimes = []);
@@ -63,7 +68,6 @@ export const BillSlice = createSlice({
         updateDays: (state, action: PayloadAction<{ index: number, days: number }>) => {
             state[action.payload.index].numberOfDays = action.payload.days;
             state[action.payload.index].uptimePercent = calculateUptimePercent(state[action.payload.index].downtime, state[action.payload.index].numberOfDays);
-            console.log(state[action.payload.index].uptimePercent, state[action.payload.index].numberOfDays)
             state[action.payload.index].penaltySlab = getSlab(state[action.payload.index].uptimePercent, state[action.payload.index].lastMile);
             state[action.payload.index].penaltyHours = calculateDowntimePenalty(state[action.payload.index].penaltySlab, state[action.payload.index].downtime);
             state[action.payload.index].amount = calculateAmount(state[action.payload.index].penaltyHours, state[action.payload.index].unitRate, state[action.payload.index].numberOfDays);
@@ -81,11 +85,12 @@ export const BillSlice = createSlice({
     },
 });
 
-export const { updateBillState, updateOneBill, addDowntime, calculateAllItems, clearBillState, updateDays } = BillSlice.actions;
+export const { updateBillState, updateOneItem, addDowntime, calculateAllItems, clearBillState, updateDays } = BillSlice.actions;
 
 export default BillSlice.reducer;
 
-const roundToTwo = (num: number) => Math.round((num + Number.EPSILON) * 100) / 100;
+export const roundToTwo = (num: number) => Math.round((num + Number.EPSILON) * 100) / 100;
+export const roundToFour = (num: number) => Math.round((num + Number.EPSILON) * 10000) / 10000;
 
 const calculateDownTime = (downTimeArray: DownTime[]) => {
     let downTime: number;
@@ -103,8 +108,12 @@ const calculateDownTime = (downTimeArray: DownTime[]) => {
 }
 
 const calculateUptimePercent = (totalDowntime: number, days: number) => {
-    totalDowntime = totalDowntime / 60000;
-    return ((days * 24 * 60) - (totalDowntime)) / (days * 24 * 60);
+    // const downtimeMinutes = totalDowntime / 60000;
+    // const totalMinutes = days * 24 * 60;
+    // const percent = (totalMinutes - downtimeMinutes)/totalMinutes;
+    // const percentFormatted = roundToFour(percent);
+    // console.log(downtimeMinutes, totalMinutes, percent, percentFormatted);
+    return roundToFour(((days * 24 * 60) - (totalDowntime / 60000)) / (days * 24 * 60));
 }
 
 const getSlab = (uptimePercent: number, linkType: string) => {
@@ -158,28 +167,28 @@ const getSlab = (uptimePercent: number, linkType: string) => {
 const calculateDowntimePenalty = (penaltySlab: number, downtime: number) => {
     switch (penaltySlab) {
         case 0:
-            return (downtime / 3600000) * 1;
+            return roundToTwo((downtime / 3600000) * 1);
         case 1:
-            return (downtime / 3600000) * 1.25;
+            return roundToTwo((downtime / 3600000) * 1.25);
         case 2:
-            return (downtime / 3600000) * 1.5;
+            return roundToTwo((downtime / 3600000) * 1.5);
         case 3:
-            return (downtime / 3600000) * 1.75;
+            return roundToTwo((downtime / 3600000) * 1.75);
         case 4:
-            return (downtime / 3600000) * 2;
+            return roundToTwo((downtime / 3600000) * 2);
         case 5:
-            return (downtime / 3600000) * 2.25;
+            return roundToTwo((downtime / 3600000) * 2.25);
         case 6:
-            return (downtime / 3600000) * 2.5;
+            return roundToTwo((downtime / 3600000) * 2.5);
         case 7:
-            return (downtime / 3600000) * 3;
+            return roundToTwo((downtime / 3600000) * 3);
         default:
             return 0;
     }
 }
 
 const calculateAmount = (penalty: number, unitRate: number, days: number) => {
-    return ((unitRate / 24) * ((days * 24) - penalty));
+    return roundToTwo((unitRate / 24) * ((days * 24) - penalty));
 }
 
 // export const getTotalDownTime = createSelector((state: RootState) => state.billItems[2].downtimes, (arr) => {

@@ -1,11 +1,14 @@
 import React from "react";
 import { useAppDispatch, useAppSelector } from "../state/hook";
 
-import { DataGrid, GridColDef, GridRenderCellParams, GridValueFormatterParams, GridValueGetterParams } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRenderCellParams, GridToolbar, GridValueFormatterParams, GridValueGetterParams } from '@mui/x-data-grid';
 
-import { addDowntime, calculateAllItems, DownTime, clearBillState, BillData, updateDays } from "../state/Bill";
+import { addDowntime, calculateAllItems, DownTime, clearBillState, BillData, updateDays, roundToTwo } from "../state/Bill";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { createDowmtimeString } from "../utils/downTimeCSV";
+
+import { CSVLink } from "react-csv";
 
 // id: number;
 // customerName: string;
@@ -126,7 +129,7 @@ const BillDataScreen = () => {
             type: 'number',
             width: 140,
             editable: true,
-            valueGetter: (params: GridValueGetterParams) => params.row.downtime / 3600000
+            valueGetter: (params: GridValueGetterParams) => roundToTwo(params.row.downtime / 3600000)
         },
         {
             field: 'uptimePercent',
@@ -202,7 +205,7 @@ const BillDataScreen = () => {
     console.log(billData);
 
     React.useEffect(() => {
-        dispatch(clearBillState());
+        // dispatch(clearBillState());
         parsedTickets.forEach((ticket) => {
             if (networkArray[ticket.firstMatchRefIndex].lm !== "sanguine" || !ticket.trafficAffected) return;
 
@@ -238,9 +241,10 @@ const BillDataScreen = () => {
     }, []);
 
     const update = () => {
-        billData.forEach((b, i) => {
-            dispatch(updateDays({ index: i, days: 137 }));
-        })
+        dispatch(calculateAllItems());
+        // billData.forEach((b, i) => {
+        //     dispatch(updateDays({ index: i, days: 137 }));
+        // })
 
     }
 
@@ -250,16 +254,25 @@ const BillDataScreen = () => {
         navigate(`/itemEditor/${row.id}`);
     }
 
+    const getCSV = () => {
+        const dat = createDowmtimeString(billData);
+    }
+
     return (
         <>
             <h1>Bismillah</h1>
             <h1>{totalValue}</h1>
             <Button onClick={update}>refresh</Button>
+            <Button onClick={getCSV}>getCSV</Button>
+            <CSVLink data={createDowmtimeString(billData)}>
+                Download me
+            </CSVLink>
             <div style={{ display: "flex", justifyContent: "center" }} >
                 <div style={{ height: "80vh", width: '95%', display: "flex", justifyContent: "center" }}>
                     {/* <div style={{ display: 'flex', height: '100%' }}> */}
                     {/* <div style={{ flexGrow: 1 }}> */}
                     <DataGrid
+                        components={{ Toolbar: GridToolbar }}
                         rows={billData}
                         columns={columns}
                         pageSize={56}
