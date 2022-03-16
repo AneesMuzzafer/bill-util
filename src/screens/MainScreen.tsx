@@ -6,6 +6,7 @@ import { useAppSelector, useAppDispatch } from "../state/hook";
 import { doFuzzySearch } from "../utils/fuzzySeach";
 import { useNavigate } from "react-router-dom";
 import { updateParsedState } from "../state/parsedLinks";
+import StepperComponent from "../components/StepperComponent";
 
 const MainScreen = () => {
 
@@ -46,7 +47,8 @@ const MainScreen = () => {
             {/* <header style={{height: 100, backgroundColor: "black", color: 'white', textAlign: "center", fontSize: 24}} className="App-header">
                 POWERGRID BILL UTILITY
             </header> */}
-            <Box sx={{ height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <StepperComponent step={0} completed={false}/>
+            <Box sx={{ height: "70vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
                 <Box sx={{ width: 500, height: 500, border: "solid 1px grey" }}>
                     <UploadFileButton handleProcessing={handleTicketProcessing} />
                 </Box>

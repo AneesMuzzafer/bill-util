@@ -4,11 +4,13 @@ import { useAppDispatch, useAppSelector } from "../state/hook";
 import { DataGrid, GridColDef, GridRenderCellParams, GridToolbar, GridValueFormatterParams, GridValueGetterParams } from '@mui/x-data-grid';
 
 import { addDowntime, calculateAllItems, DownTime, clearBillState, BillData, updateDays, roundToTwo } from "../state/Bill";
-import { Button } from "@mui/material";
+import { Button, Container, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { createDowmtimeString } from "../utils/downTimeCSV";
 
 import { CSVLink } from "react-csv";
+import StepperComponent from "../components/StepperComponent";
+import { Box } from "@mui/system";
 
 // id: number;
 // customerName: string;
@@ -242,13 +244,9 @@ const BillDataScreen = () => {
 
     const update = () => {
         dispatch(calculateAllItems());
-        // billData.forEach((b, i) => {
-        //     dispatch(updateDays({ index: i, days: 137 }));
-        // })
-
     }
 
-    const totalValue = billData.reduce((p, c) => p + c.amount, 0);
+    const totalValue = roundToTwo(billData.reduce((p, c) => p + c.amount, 0));
 
     const handleEdit = (row: BillData) => {
         navigate(`/itemEditor/${row.id}`);
@@ -260,19 +258,38 @@ const BillDataScreen = () => {
 
     return (
         <>
-            <h1>Bismillah</h1>
-            <h1>{totalValue}</h1>
+            <Container>
+                <StepperComponent step={3} />
+                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", border: "solid 1px #ccc", borderRadius: 2, padding: 1, marginBottom: 2 }}>
+                    <Box display="flex" flexDirection="column">
+                        <Typography variant="button">Total Amount: ₹ {roundToTwo(totalValue).toLocaleString("en-IN")}</Typography>
+                        <Typography variant="button">Total Including GST: ₹ {roundToTwo(totalValue * 1.18).toLocaleString("en-IN")}</Typography>
+                    </Box>
+                    <Box sx={{ display: "flex" }}>
+                        <CSVLink style={{ textDecorationLine: "none", marginRight: 20 }} data={createDowmtimeString(billData)}>
+                            <Button >Downtime</Button>
+                        </CSVLink>
+                        <CSVLink style={{ textDecorationLine: "none", marginRight: 20 }} data={createDowmtimeString(billData)}>
+                            <Button >Bill</Button>
+                        </CSVLink>
+                        <CSVLink style={{ textDecorationLine: "none" }} data={createDowmtimeString(billData)}>
+                            <Button >JSON</Button>
+                        </CSVLink>
+                    </Box>
+                </Box>
+            </Container>
+            {/* <h1>{totalValue}</h1>
             <Button onClick={update}>refresh</Button>
             <Button onClick={getCSV}>getCSV</Button>
-            <CSVLink data={createDowmtimeString(billData)}>
-                Download me
-            </CSVLink>
-            <div style={{ display: "flex", justifyContent: "center" }} >
-                <div style={{ height: "80vh", width: '95%', display: "flex", justifyContent: "center" }}>
+            <CSVLink style={{ textDecorationLine: "none" }} data={createDowmtimeString(billData)}>
+                <Button variant="outlined">Downtime</Button>
+            </CSVLink> */}
+            <div style={{ marginTop: 5, display: "flex", justifyContent: "center" }} >
+                <div style={{ height: "70vh", width: '95%', display: "flex", justifyContent: "center" }}>
                     {/* <div style={{ display: 'flex', height: '100%' }}> */}
                     {/* <div style={{ flexGrow: 1 }}> */}
                     <DataGrid
-                        components={{ Toolbar: GridToolbar }}
+                        // components={{ Toolbar: GridToolbar }}
                         rows={billData}
                         columns={columns}
                         pageSize={56}

@@ -11,6 +11,7 @@ import isBetween from 'dayjs/plugin/isBetween';
 import { useNavigate } from "react-router-dom";
 import { addDowntime } from "../state/Bill";
 import useTheme from "@mui/material/styles/useTheme";
+import StepperComponent from "../components/StepperComponent";
 
 const LIGHTBLUE = "#d1e4f6";
 const EVENLIGHTERBLUE = "#e8f1fb";
@@ -84,6 +85,9 @@ const TicketAffecting = () => {
 
     return (
         <Container sx={{ minWidth: "95%" }}>
+            <Container>
+                <StepperComponent step={2} />
+            </Container>
             <Button onClick={handleCreate}>Create Bill</Button>
             <Box sx={{}}>
                 <Paper

@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "../state/hook";
 import { ParsedTicket, updateCompleteFlag, updateOneTicket } from "../state/parsedLinks";
 import { Box } from "@mui/system";
 import { useNavigate } from "react-router-dom";
+import StepperComponent from "../components/StepperComponent";
 
 const MapTickets = () => {
 
@@ -111,6 +112,7 @@ const MapTickets = () => {
 
     return (
         <Container sx={{ display: "flex", flexDirection: "column" }}>
+            <StepperComponent step={1} />
             <Typography>Total Links = {parsedLinks.length}</Typography>
             <Typography>Total Links Matched = {completeMatchedLinks.length}</Typography>
             <Typography>Total Links Partially Matched = {partialMatchedLinks.length}</Typography>
