@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../state/hook";
 import { DataGrid, GridColDef, GridRenderCellParams, GridToolbar, GridValueFormatterParams, GridValueGetterParams } from '@mui/x-data-grid';
 
 import { addDowntime, calculateAllItems, DownTime, clearBillState, BillData, updateDays, roundToTwo } from "../state/Bill";
-import { Button, Container, Typography } from "@mui/material";
+import { Button, Chip, Container, Paper, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { createDowmtimeString } from "../utils/downTimeCSV";
 
@@ -260,10 +260,10 @@ const BillDataScreen = () => {
         <>
             <Container>
                 <StepperComponent step={3} />
-                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", border: "solid 1px #ccc", borderRadius: 2, padding: 1, marginBottom: 2 }}>
+                <Paper sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: 1, marginBottom: 2 }}>
                     <Box display="flex" flexDirection="column">
-                        <Typography variant="button">Total Amount: ₹ {roundToTwo(totalValue).toLocaleString("en-IN")}</Typography>
-                        <Typography variant="button">Total Including GST: ₹ {roundToTwo(totalValue * 1.18).toLocaleString("en-IN")}</Typography>
+                        <Typography variant="button">Total Amount:  <Chip label={`₹ ${roundToTwo(totalValue).toLocaleString("en-IN")}`} color="primary" variant="outlined" sx={{ fontWeight: "bold", marginRight: 2, marginBottom: 1 }} /></Typography>
+                        <Typography variant="button">Total Including GST: <Chip label={`₹ ${roundToTwo(totalValue * 1.18).toLocaleString("en-IN")}`} color="primary" variant="outlined" sx={{ fontWeight: "bold", marginRight: 2 }} /></Typography>
                     </Box>
                     <Box sx={{ display: "flex" }}>
                         <CSVLink style={{ textDecorationLine: "none", marginRight: 20 }} data={createDowmtimeString(billData)}>
@@ -276,7 +276,7 @@ const BillDataScreen = () => {
                             <Button >JSON</Button>
                         </CSVLink>
                     </Box>
-                </Box>
+                </Paper>
             </Container>
             {/* <h1>{totalValue}</h1>
             <Button onClick={update}>refresh</Button>

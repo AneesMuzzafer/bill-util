@@ -18,13 +18,13 @@ const TicketMapRow: React.FC<ILinkRow> = ({ thisTicket, onSelect, unmatched = fa
 
     const networkArray: LinkData[] = useAppSelector(state => state.links);
     const [selected, setSelected] = React.useState<LinkData>(!unmatched ? networkArray[thisTicket.firstMatchRefIndex] : networkArray[1]);
-    
+
 
     return (
         <Paper
             sx={{
                 display: "flex",
-                justifyContent: "flex-end",
+                justifyContent: "space-between",
                 alignItems: "center",
                 p: 1,
                 my: 2,
@@ -32,6 +32,7 @@ const TicketMapRow: React.FC<ILinkRow> = ({ thisTicket, onSelect, unmatched = fa
             variant="elevation"
             component="ul"
         >
+            <Chip label={thisTicket.id} color="primary" variant="outlined" sx={{ fontWeight: "bold", marginRight: 2 }} />
             <Box
                 sx={{
                     display: 'flex',
@@ -39,7 +40,6 @@ const TicketMapRow: React.FC<ILinkRow> = ({ thisTicket, onSelect, unmatched = fa
                     flexWrap: 'wrap',
                     listStyle: 'none',
                 }}>
-                <Chip label={thisTicket.id} color="primary" variant="outlined" sx={{ fontWeight: "bold", marginRight: 2 }} />
                 <Chip label={thisTicket.ticketDesc} color="primary" variant="outlined" sx={{ fontWeight: "bold", marginRight: 2 }} />
                 <Chip label={thisTicket.linkname} color="primary" variant="filled" sx={{ fontWeight: "bold", marginRight: 2 }} />
                 {/* {conLinks && conLinks.map((name, index) => (
@@ -54,24 +54,24 @@ const TicketMapRow: React.FC<ILinkRow> = ({ thisTicket, onSelect, unmatched = fa
                     </li>
                 )
                 )} */}
-            </Box>
-            <Box sx={{ display: "flex", padding: 0 }}>
-                <Autocomplete
-                    disablePortal
-                    clearOnEscape
-                    id="combo-box-demo"
-                    options={networkArray}
-                    sx={{ width: 300 }}
-                    value={selected}
-                    onChange={(event, newValue: LinkData | null) => {
-                        newValue && setSelected(newValue);
-                        newValue && onSelect(thisTicket, networkArray.indexOf(newValue));
-                    }}
-                    renderInput={(params) => <TextField {...params} size="small" label="Link" />}
-                />
-                {/* <Button variant="contained" size="small" sx={{ mx: 2 }} 
+                <Box sx={{ display: "flex", padding: 0 }}>
+                    <Autocomplete
+                        disablePortal
+                        clearOnEscape
+                        id="combo-box-demo"
+                        options={networkArray}
+                        sx={{ width: 300 }}
+                        value={selected}
+                        onChange={(event, newValue: LinkData | null) => {
+                            newValue && setSelected(newValue);
+                            newValue && onSelect(thisTicket, networkArray.indexOf(newValue));
+                        }}
+                        renderInput={(params) => <TextField {...params} size="small" label="Link" />}
+                    />
+                    {/* <Button variant="contained" size="small" sx={{ mx: 2 }} 
                 onClick={() => selectedLink && addLink(selectedLink)}
                 >Add</Button> */}
+                </Box>
             </Box>
         </Paper>
     );
