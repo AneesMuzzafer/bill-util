@@ -1,11 +1,12 @@
 import React from "react";
-import { Button, Container, Paper, Typography } from "@mui/material";
+import { Button, Chip, Container, Paper, Typography } from "@mui/material";
 import TicketMapRow from "../components/ticketMapRow";
 import { useAppDispatch, useAppSelector } from "../state/hook";
 import { ParsedTicket, updateCompleteFlag, updateOneTicket } from "../state/parsedLinks";
 import { Box } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import StepperComponent from "../components/StepperComponent";
+import useTheme from "@mui/material/styles/useTheme";
 
 const MapTickets = () => {
 
@@ -21,11 +22,13 @@ const MapTickets = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
+    const theme = useTheme();
+
     const handleSelect = (ticket: ParsedTicket, newRefIndex: number) => {
         dispatch(updateOneTicket({ ticket, networkIndex: newRefIndex }));
         setLinkArray(p => {
             let index = p.indexOf(ticket);
-            p[index] = {...p[index], completeMatch: true}
+            p[index] = { ...p[index], completeMatch: true }
             return p
         });
     }
@@ -53,10 +56,10 @@ const MapTickets = () => {
                         flag = false;
                     }
                 });
-                // if (!flag) {
-                //     alert("Match All links first");
-                //     break;
-                // };
+                if (!flag) {
+                    alert("Match All links first");
+                    break;
+                };
                 dispatch(updateCompleteFlag(partialMatchedLinks));
                 setLinkArray(unmatchedLinks);
                 setStage("unmatched");
@@ -68,10 +71,10 @@ const MapTickets = () => {
                         flag = false;
                     }
                 });
-                // if (!flag) {
-                //     alert("Match All links first");
-                //     break;
-                // };
+                if (!flag) {
+                    alert("Match All links first");
+                    break;
+                };
                 dispatch(updateCompleteFlag(unmatchedLinks));
                 navigate("/traffic");
                 break;
@@ -82,30 +85,36 @@ const MapTickets = () => {
         switch (stage) {
             case "matched":
                 return (
-                    <Paper sx={{ maxHeight: "75vh", overflowY: "scroll" }}>
-                        <Typography>Matched Links</Typography>
+                    <Box sx={{ maxHeight: "70vh", overflowY: "scroll" }}>
+                        <Paper sx={{ backgroundColor: theme.palette.primary.main, padding: 2, color: "white" }}>
+                            <Typography >Matched Links</Typography>
+                        </Paper>
                         {completeMatchedLinks.map((link, index) =>
                             <TicketMapRow key={index} thisTicket={link} onSelect={handleSelect} />
                         )}
-                    </Paper >
+                    </Box >
                 )
             case "partial":
                 return (
-                    <Paper sx={{ maxHeight: "75vh", overflowY: "scroll" }}>
-                        <Typography>Partially Matched Links</Typography>
+                    <Box sx={{ maxHeight: "75vh", overflowY: "scroll" }}>
+                        <Paper sx={{ backgroundColor: theme.palette.primary.main, padding: 2, color: "white" }}>
+                            <Typography>Partially Matched Links</Typography>
+                        </Paper>
                         {partialMatchedLinks.map((link, index) =>
                             <TicketMapRow key={index} thisTicket={link} onSelect={handleSelect} />
                         )}
-                    </Paper >
+                    </Box >
                 )
             case "unmatched":
                 return (
-                    <Paper sx={{ maxHeight: "75vh", overflowY: "scroll" }}>
-                        <Typography>Unmatched Links</Typography>
+                    <Box sx={{ maxHeight: "75vh", overflowY: "scroll" }}>
+                        <Paper sx={{ backgroundColor: theme.palette.primary.main, padding: 2, color: "white" }}>
+                            <Typography>Unmatched Links</Typography>
+                        </Paper>
                         {unmatchedLinks.map((link, index) =>
                             <TicketMapRow key={index} thisTicket={link} onSelect={handleSelect} unmatched />
                         )}
-                    </Paper >
+                    </Box >
                 )
         }
     }
@@ -113,13 +122,15 @@ const MapTickets = () => {
     return (
         <Container sx={{ display: "flex", flexDirection: "column" }}>
             <StepperComponent step={1} />
-            <Typography>Total Links = {parsedLinks.length}</Typography>
-            <Typography>Total Links Matched = {completeMatchedLinks.length}</Typography>
-            <Typography>Total Links Partially Matched = {partialMatchedLinks.length}</Typography>
-            <Typography>Total Links UnMatched = {unmatchedLinks.length}</Typography>
-            <Box sx={{ display: "flex", justifyContent: "flex-end", marginY: 4 }}>
+            <Paper sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: 1, marginBottom: 3 }}>
+                <Typography variant="button">Total Links = <Chip label={parsedLinks.length} /></Typography>
+                <Typography variant="button">Total Links Matched = <Chip label={completeMatchedLinks.length} /></Typography>
+                <Typography variant="button">Total Links Partially Matched = <Chip label={partialMatchedLinks.length} /></Typography>
+                <Typography variant="button">Total Links UnMatched = <Chip label={unmatchedLinks.length} /></Typography>
                 <Button variant="contained" sx={{ width: 20 }} onClick={handleUpdate}>Update</Button>
-            </Box>
+            </Paper>
+            {/* <Box sx={{ display: "flex", justifyContent: "flex-end", marginY: 2 }}>
+            </Box> */}
             {renderTable()}
         </Container >
     );

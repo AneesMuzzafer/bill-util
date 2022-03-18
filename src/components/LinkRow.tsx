@@ -32,37 +32,41 @@ const LinkRow: React.FC<ILinkRow> = ({ thisLink, conLinks }) => {
             <Box
                 sx={{
                     display: 'flex',
-                    justifyContent: 'flex-start',
+                    flex: 1,
+                    justifyContent: 'space-between',
+                    alignItems: "center",
                     flexWrap: 'wrap',
                     listStyle: 'none',
                 }}>
-                <Chip label={thisLink.id} color="primary" variant="outlined" sx={{ fontWeight: "bold", marginRight: 2 }} />
-                <Chip label={thisLink.label} color="primary" variant="filled" sx={{ fontWeight: "bold", marginRight: 2 }} />
-                <Chip label={thisLink.lm} color="primary" variant="filled" sx={{ fontWeight: "bold", marginRight: 2 }} />
-                {thisLink.cps && thisLink.cps.map((name, index) => (
+                <Box sx={{ display: "flex", flex: 3 }}>
+                    <Chip label={thisLink.id} color="primary" variant="outlined" sx={{ fontWeight: "bold", marginRight: 2 }} />
+                    <Chip label={thisLink.label} color="primary" variant="filled" sx={{ fontWeight: "bold", marginRight: 2 }} />
+                </Box>
+                <Box sx={{ display: "flex", flex: 7, justifyContent: "flex-start" }}>
+                    <Chip label={thisLink.lm} color="primary" variant="outlined" sx={{ fontWeight: "bold", marginRight: 2, width: 100 }} />
+                    {thisLink.cps && thisLink.cps.map((no, index) => (
+                        no !== -1 && <li key={index} style={{ margin: 0, padding: 0 }}>
+                            <Chip
+                                sx={{ marginX: 0.5 }}
+                                label={no}
+                                color="primary"
+                                variant="outlined"
+                            />
+                        </li>
+                    )
+                    )}
+                    {/* {conLinks && conLinks.map((name, index) => (
                     <li key={index} style={{ margin: 0, padding: 0 }}>
                         <Chip
                             sx={{ marginX: 0.5 }}
                             label={name}
                             color="primary"
                             variant="outlined"
-                            // onDelete={() => handleDelete(data)}
                         />
                     </li>
                 )
-                )}
-                {conLinks && conLinks.map((name, index) => (
-                    <li key={index} style={{ margin: 0, padding: 0 }}>
-                        <Chip
-                            sx={{ marginX: 0.5 }}
-                            label={name}
-                            color="primary"
-                            variant="outlined"
-                            // onDelete={() => handleDelete(data)}
-                        />
-                    </li>
-                )
-                )}
+                )} */}
+                </Box>
             </Box>
             {/* <Box sx={{ display: "flex", padding: 0 }}>
                 <Autocomplete

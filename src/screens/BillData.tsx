@@ -261,19 +261,19 @@ const BillDataScreen = () => {
             <Container>
                 <StepperComponent step={3} />
                 <Paper sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: 1, marginBottom: 2 }}>
-                    <Box display="flex" flexDirection="column">
-                        <Typography variant="button">Total Amount:  <Chip label={`₹ ${roundToTwo(totalValue).toLocaleString("en-IN")}`} color="primary" variant="outlined" sx={{ fontWeight: "bold", marginRight: 2, marginBottom: 1 }} /></Typography>
-                        <Typography variant="button">Total Including GST: <Chip label={`₹ ${roundToTwo(totalValue * 1.18).toLocaleString("en-IN")}`} color="primary" variant="outlined" sx={{ fontWeight: "bold", marginRight: 2 }} /></Typography>
+                    <Box display="flex" >
+                        <Typography variant="button">Total Amount:  <Chip label={`₹ ${roundToTwo(totalValue).toLocaleString("en-IN")}`} color="primary" variant="outlined" sx={{ fontWeight: "bold", marginX: 2, marginBottom: 1 }} /></Typography>
+                        {/* <Typography variant="button">Total Including GST: <Chip label={`₹ ${roundToTwo(totalValue * 1.18).toLocaleString("en-IN")}`} color="primary" variant="outlined" sx={{ fontWeight: "bold", marginRight: 2 }} /></Typography> */}
                     </Box>
                     <Box sx={{ display: "flex" }}>
                         <CSVLink style={{ textDecorationLine: "none", marginRight: 20 }} data={createDowmtimeString(billData)}>
-                            <Button >Downtime</Button>
+                            <Button variant="outlined" >Downtime</Button>
                         </CSVLink>
                         <CSVLink style={{ textDecorationLine: "none", marginRight: 20 }} data={createDowmtimeString(billData)}>
-                            <Button >Bill</Button>
+                            <Button variant="outlined" >Bill</Button>
                         </CSVLink>
                         <CSVLink style={{ textDecorationLine: "none" }} data={createDowmtimeString(billData)}>
-                            <Button >JSON</Button>
+                            <Button variant="outlined">JSON</Button>
                         </CSVLink>
                     </Box>
                 </Paper>

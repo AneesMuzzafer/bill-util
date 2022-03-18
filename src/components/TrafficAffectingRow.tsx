@@ -49,38 +49,36 @@ const TrafficAffectingRow: React.FC<ITARProps> = ({ thisTicket, isAffecting, sel
     }, [isSelected, selected.id]);
 
     return (
-            <Paper
+        <Paper
+            sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                p: 1,
+                my: 2,
+                backgroundColor: bgColor,
+            }}
+            variant="elevation"
+            component="ul">
+            <Chip label={thisTicket.id + 1} color={disabled ? "default" : "primary"} variant="outlined" sx={{ fontWeight: "bold", marginRight: 2, width: 50 }} />
+            <Box
                 sx={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    alignItems: "center",
-                    p: 1,
-                    my: 2,
-                    backgroundColor: bgColor,
-                }}
-                variant="elevation"
-                component="ul">
-                <Box
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'flex-end',
-                        flexWrap: 'wrap',
-                        listStyle: 'none',
-                    }}>
-                    <Chip label={thisTicket.id + 1} color={disabled ? "default" :"primary"} variant="outlined" sx={{ fontWeight: "bold", marginRight: 2, width: 50 }} />
-                    <Chip label={thisTicket.ticketDesc} color={disabled ? "default" :"primary"} variant="outlined" sx={{ fontWeight: "bold", marginRight: 2 }} />
-                    <Chip label={sd + " - " + cd} color={disabled ? "default" :"primary"} variant="outlined" sx={{ fontWeight: "bold", marginRight: 2 }} />
-                    <Chip label={dif + " hours"} color={disabled ? "default" :"primary"} variant="outlined" sx={{ fontWeight: "bold", marginRight: 2 }} />
-                    <Chip label={thisTicket.linkname} color={disabled ? "default" :"primary"} variant="filled" sx={{ fontWeight: "bold", marginRight: 2, width: 200 }} />
-                </Box>
-                <Box sx={{ display: "flex", alignItems: "center", padding: 0 }}>
-                    <Checkbox disabled={disabled} onChange={() => onPress(thisTicket)} checked={isSelected} />
-                    <Switch
-                        disabled={disabled}
-                        checked={isAffecting}
-                        onChange={() => handleChange(thisTicket)} />
-                </Box>
-            </Paper>
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    flexWrap: 'wrap',
+                    listStyle: 'none',
+                }}>
+                <Chip label={thisTicket.ticketDesc} color={disabled ? "default" : "primary"} variant="outlined" sx={{ fontWeight: "bold", marginRight: 2 }} />
+                <Chip label={sd + " - " + cd} color={disabled ? "default" : "primary"} variant="outlined" sx={{ fontWeight: "bold", marginRight: 2 }} />
+                <Chip label={dif + " hours"} color={disabled ? "default" : "primary"} variant="outlined" sx={{ fontWeight: "bold", marginRight: 2 }} />
+                <Chip label={thisTicket.linkname} color={disabled ? "default" : "primary"} variant="filled" sx={{ fontWeight: "bold", marginRight: 2, width: 200 }} />
+                <Checkbox disabled={disabled} onChange={() => onPress(thisTicket)} checked={isSelected} />
+                <Switch
+                    disabled={disabled}
+                    checked={isAffecting}
+                    onChange={() => handleChange(thisTicket)} />
+            </Box>
+        </Paper>
     )
 }
 

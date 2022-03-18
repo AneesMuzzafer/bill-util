@@ -71,17 +71,19 @@ const BillDataEditor = () => {
         <LocalizationProvider dateAdapter={DateAdapter}>
             <Container sx={{ paddingTop: 5 }}>
                 <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                    <Typography variant="h4" sx={{ textDecorationLine: "underline", marginBottom: 2 }}>{billDataItem.customerName}</Typography>
+                    <Typography variant="h5" sx={{ color: "darkturquoise", textDecorationLine: "underline", marginBottom: 2 }}>{billDataItem.customerName}</Typography>
                     <Button variant="contained" onClick={handleSave}>SAVE</Button>
                 </Box>
-                <Typography variant="body1">CP No: {billDataItem.cpNumber}</Typography>
-                <Typography variant="body1">Link Detail: {billDataItem.linkFrom} - {billDataItem.linkTo}</Typography>
-                <Typography variant="body1">Unit Rate: {billDataItem.unitRate}</Typography>
-                <Typography variant="body1">Link Type: {billDataItem.lastMile}</Typography>
-                <Typography variant="button">Total: {total} Hours</Typography>
-                <br />
-                <TextField label="No. of Days" variant="outlined" sx={{ marginY: 5 }} value={days} onChange={(e: any) => handleChange(e)} />
-                <br />
+                <Paper sx={{ display: "flex", justifyContent: "flex-start", flexDirection: 'column', alignItems: "flex-start", padding: 2, margin: 2 }}>
+                    <Typography variant="button">CP No: {billDataItem.cpNumber}</Typography>
+                    <Typography variant="button">Link Detail: {billDataItem.linkFrom} - {billDataItem.linkTo}</Typography>
+                    <Typography variant="button">Unit Rate: {billDataItem.unitRate}</Typography>
+                    <Typography variant="button">Link Type: {billDataItem.lastMile}</Typography>
+                    <Typography variant="button">Total: {total} Hours</Typography>
+                </Paper>
+                <Box>
+                    <TextField label="No. of Days" variant="outlined" sx={{ marginY: 5 }} value={days} onChange={(e: any) => handleChange(e)} />
+                </Box>
                 <Typography variant="overline">Downtimes</Typography>
 
                 {
@@ -125,8 +127,7 @@ const BillDataEditor = () => {
                     ))
                 }
 
-                <Button onClick={handleAdd}>Add downtime</Button>
-
+                <Button onClick={handleAdd}> + Add downtime</Button>
             </Container>
 
 

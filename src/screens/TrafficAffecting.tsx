@@ -17,11 +17,6 @@ const LIGHTBLUE = "#d1e4f6";
 const EVENLIGHTERBLUE = "#e8f1fb";
 const WHITE = "#fff";
 
-interface colorState {
-    tk: ParsedTicket;
-    color: string;
-}
-
 dayjs.extend(isBetween);
 
 const TicketAffecting = () => {
@@ -39,8 +34,6 @@ const TicketAffecting = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const theme = useTheme();
-
-    const blueColor = theme.palette.background.default;
 
     const handleChange = (tk: ParsedTicket) => {
         setTickets(p => {
@@ -88,20 +81,20 @@ const TicketAffecting = () => {
             <Container>
                 <StepperComponent step={2} />
             </Container>
-            <Button onClick={handleCreate}>Create Bill</Button>
+            
             <Box sx={{}}>
                 <Paper
                     sx={{
                         display: "flex",
-                        justifyContent: "flex-end",
+                        justifyContent: "space-between",
                         alignItems: "center",
                         p: 1,
                         my: 2,
                         backgroundColor: theme.palette.primary.main,
-                        border: "solid 1px black"
                     }}
                     variant="elevation"
                     component="ul">
+                    <Chip label="S No." color="default" variant="outlined" sx={{ color: "#fff", fontWeight: "bold", marginRight: 2 }} />
                     <Box
                         sx={{
                             display: 'flex',
@@ -109,13 +102,10 @@ const TicketAffecting = () => {
                             flexWrap: 'wrap',
                             listStyle: 'none',
                         }}>
-                        <Chip label="S No." color="default" variant="outlined" sx={{ color: "#fff", fontWeight: "bold", marginRight: 2 }} />
                         <Chip label="Ticket Description" color="default" variant="outlined" sx={{ color: "#fff", fontWeight: "bold", marginRight: 2, width: 250 }} />
                         <Chip label="Downtime" color="default" variant="outlined" sx={{ color: "#fff", fontWeight: "bold", marginRight: 2, width: 250 }} />
                         <Chip label="Downtime Hours" color="default" variant="outlined" sx={{ color: "#fff", fontWeight: "bold", marginRight: 2 }} />
                         <Chip label="Link Name" color="default" variant="outlined" sx={{ color: "#fff", fontWeight: "bold", marginRight: 2, width: 200 }} />
-                    </Box>
-                    <Box sx={{ display: "flex", alignItems: "center", padding: 0 }}>
                         <Chip label="S" color="default" variant="outlined" sx={{ color: "#fff", fontWeight: "bold", marginRight: 2, width: 40 }} />
                         <Chip label="T" color="default" variant="outlined" sx={{ color: "#fff", fontWeight: "bold", marginRight: 1, width: 40 }} />
                     </Box>
@@ -128,6 +118,9 @@ const TicketAffecting = () => {
                         );
                     })
                 }
+            </Box>
+            <Box sx={{display: "flex", flex: 1, justifyContent: "flex-end", marginY: 10}}>
+                <Button variant="contained" onClick={handleCreate}>Create Bill</Button>
             </Box>
         </Container>
     );
