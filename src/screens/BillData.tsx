@@ -6,11 +6,12 @@ import { DataGrid, GridColDef, GridRenderCellParams, GridToolbar, GridValueForma
 import { addDowntime, calculateAllItems, DownTime, clearBillState, BillData, updateDays, roundToTwo } from "../state/Bill";
 import { Button, Chip, Container, Paper, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { createDowmtimeString } from "../utils/downTimeCSV";
+import { createBillSummaryString, createDowmtimeString } from "../utils/downTimeCSV";
 
 import { CSVLink } from "react-csv";
 import StepperComponent from "../components/StepperComponent";
 import { Box } from "@mui/system";
+import download from "downloadjs";
 
 // id: number;
 // customerName: string;
@@ -256,6 +257,10 @@ const BillDataScreen = () => {
         const dat = createDowmtimeString(billData);
     }
 
+    const downloadJSON = () => {
+        download(JSON.stringify(billData), "bill.json", "text/JSON");
+    }
+
     return (
         <>
             <Container>
@@ -266,15 +271,15 @@ const BillDataScreen = () => {
                         {/* <Typography variant="button">Total Including GST: <Chip label={`₹ ${roundToTwo(totalValue * 1.18).toLocaleString("en-IN")}`} color="primary" variant="outlined" sx={{ fontWeight: "bold", marginRight: 2 }} /></Typography> */}
                     </Box>
                     <Box sx={{ display: "flex" }}>
-                        <CSVLink style={{ textDecorationLine: "none", marginRight: 20 }} data={createDowmtimeString(billData)}>
+                        <CSVLink  filename={`downtime-${new Date()}.csv`} style={{ textDecorationLine: "none", marginRight: 20 }} data={createDowmtimeString(billData)}>
                             <Button variant="outlined" >Downtime</Button>
                         </CSVLink>
-                        <CSVLink style={{ textDecorationLine: "none", marginRight: 20 }} data={createDowmtimeString(billData)}>
-                            <Button variant="outlined" >Bill</Button>
+                        <CSVLink filename={`bill-summary-${new Date()}.csv`} style={{ textDecorationLine: "none", marginRight: 20 }} data={createBillSummaryString(billData, totalValue)}>
+                            <Button variant="outlined" >Bill Summary</Button>
                         </CSVLink>
-                        <CSVLink style={{ textDecorationLine: "none" }} data={createDowmtimeString(billData)}>
-                            <Button variant="outlined">JSON</Button>
-                        </CSVLink>
+                        {/* <CSVLink style={{ textDecorationLine: "none" }} data={createDowmtimeString(billData)}> */}
+                            <Button onClick={() => downloadJSON()} variant="outlined">JSON</Button>
+                        {/* </CSVLink> */}
                     </Box>
                 </Paper>
             </Container>

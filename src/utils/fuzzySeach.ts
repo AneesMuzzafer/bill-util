@@ -11,15 +11,16 @@ dayjs.extend(customParseFormat)
 export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) => {
     let id = 0;
     const fuse = new Fuse(links, {
-        keys: [
-            {
-                name: "label",
-                weight: 1
-            }, {
-                name: "region",
-                weight: 0.01
-            }
-        ],
+        keys: ['label', 'alias'],
+        // [
+        //     {
+        //         name: "label",
+        //         weight: 1
+        //     }, {
+        //         name: "region",
+        //         weight: 0.01
+        //     }
+        // ],
         includeScore: true
     });
 

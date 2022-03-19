@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-
+import { ParsedTicket } from "./parsedLinks";
 export interface LinkData {
     id: number;
     label: string;
@@ -25,9 +25,19 @@ export const LinkSlice = createSlice({
                 state[state.indexOf(item)].connectedLinks = action.payload.connectedLinks;
             }
         },
+        addAliases: (state, action: PayloadAction<ParsedTicket[]>) => {
+            action.payload.forEach(ticket => {
+                let aliases = state[ticket.firstMatchRefIndex].alias;
+                if (aliases) {
+                    aliases.push(ticket.linkname);
+                    state[ticket.firstMatchRefIndex].alias = aliases;
+                    localStorage.setItem("links", JSON.stringify(state));
+                }
+            });
+        },
     },
 });
 
-export const { updateNetwork, updateOneLink } = LinkSlice.actions;
+export const { updateNetwork, updateOneLink, addAliases } = LinkSlice.actions;
 
 export default LinkSlice.reducer;

@@ -7,6 +7,7 @@ import { Box } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import StepperComponent from "../components/StepperComponent";
 import useTheme from "@mui/material/styles/useTheme";
+import { addAliases } from "../state/links";
 
 const MapTickets = () => {
 
@@ -32,6 +33,16 @@ const MapTickets = () => {
             return p
         });
     }
+
+    React.useEffect(() => {
+        if (stage === "partial" && partialMatchedLinks.length === 0) {
+            setLinkArray(unmatchedLinks);
+            setStage("unmatched");
+        }
+        if (stage === "unmatched" && unmatchedLinks.length === 0) {
+            navigate("/traffic");
+        }
+    }, [stage, navigate, partialMatchedLinks, unmatchedLinks]);
 
     const handleUpdate = () => {
         let flag: boolean;
@@ -61,6 +72,7 @@ const MapTickets = () => {
                     break;
                 };
                 dispatch(updateCompleteFlag(partialMatchedLinks));
+                dispatch(addAliases(partialMatchedLinks));
                 setLinkArray(unmatchedLinks);
                 setStage("unmatched");
                 break;
@@ -76,6 +88,7 @@ const MapTickets = () => {
                     break;
                 };
                 dispatch(updateCompleteFlag(unmatchedLinks));
+                dispatch(addAliases(unmatchedLinks));
                 navigate("/traffic");
                 break;
         }

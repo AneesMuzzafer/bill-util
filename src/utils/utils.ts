@@ -76,8 +76,8 @@ export const processNetworkCsv = async (csvFile: object): Promise<LinkData[]> =>
                         region: linkFields[2],
                         cps: linkFields[3]?.split(";").map(item => parseInt(item, 10)),
                         lm: linkFields[4],
-                        connectedLinks: linkFields[5]?.split(";"),
-                        alias: linkFields[6]?.split(";")
+                        connectedLinks: linkFields[5] === "" ? [] : linkFields[5]?.split(";"),
+                        alias: linkFields[6] === "\r" ? [] : linkFields[6]?.split(";"),
                     }
                 });
             }
@@ -134,7 +134,7 @@ export const processBillCsv = async (csvFile: object): Promise<BillData[]> => {
 
 const getPenaltyString = (num: number) => {
     switch (num) {
-        case 0: 
+        case 0:
             return "1"
     }
 }

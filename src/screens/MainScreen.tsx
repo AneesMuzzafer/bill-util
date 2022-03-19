@@ -17,6 +17,7 @@ const MainScreen = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const networkArray = useAppSelector(state => state.links);
+    console.log("from Main Screen ", networkArray);
     // const parsedTickets = useAppSelector(state => state.parsedTickets);
 
     // const handleProcessing = async () => {
