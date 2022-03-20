@@ -17,7 +17,6 @@ const MainScreen = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const networkArray = useAppSelector(state => state.links);
-    console.log("from Main Screen ", networkArray);
     // const parsedTickets = useAppSelector(state => state.parsedTickets);
 
     // const handleProcessing = async () => {
@@ -39,6 +38,7 @@ const MainScreen = () => {
             navigate("/map");
         }
     }, [ticketArray, networkArray, navigate, dispatch]);
+
 
     // const gt = useAppSelector(state => getTotalDownTime(state));
     // console.log(gt);

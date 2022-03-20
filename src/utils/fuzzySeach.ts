@@ -49,7 +49,7 @@ export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) =>
                         ticketResolvedAt: closingDate,
                         trafficAffected: false,
                         trafficAffectingStatusInTicket: !ticket.Description.toUpperCase().includes("{NO}") ,
-                        matches: match
+                        matches: parsedLinks.map(l => l !== link)
                     });
 
                 } else if (match.length > 0 && match[0].score && match[0].score > 0.3) {
@@ -65,7 +65,7 @@ export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) =>
                         ticketResolvedAt: closingDate,
                         trafficAffected: false,
                         trafficAffectingStatusInTicket: !ticket.Description.toUpperCase().includes("{NO}") ,
-                        matches: match
+                        matches: parsedLinks.map(l => l !== link)
                     });
                 } else {
                     parsedResult.push({
@@ -80,7 +80,7 @@ export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) =>
                         ticketResolvedAt: closingDate,
                         trafficAffected: false,
                         trafficAffectingStatusInTicket: !ticket.Description.toUpperCase().includes("{NO}") ,
-                        matches: []
+                        matches: parsedLinks.map(l => l !== link)
                     });
                 }
             });
@@ -90,4 +90,24 @@ export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) =>
     });
 
     return parsedResult;
+}
+
+export const doFuseAgain = (connectedLinks: string[], link: string) => {
+    const fuse = new Fuse(connectedLinks, {
+        
+        // [
+        //     {
+        //         name: "label",
+        //         weight: 1
+        //     }, {
+        //         name: "region",
+        //         weight: 0.01
+        //     }
+        // ],
+        includeScore: true
+    });
+
+    const match = fuse.search(link.trim());
+    console.log(match)
+    return 2;
 }

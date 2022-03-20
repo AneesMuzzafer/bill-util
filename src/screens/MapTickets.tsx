@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import StepperComponent from "../components/StepperComponent";
 import useTheme from "@mui/material/styles/useTheme";
 import { addAliases } from "../state/links";
+import {doFuseAgain} from "../utils/fuzzySeach"
 
 const MapTickets = () => {
 
@@ -17,6 +18,8 @@ const MapTickets = () => {
     const completeMatchedLinks = parsedLinks.filter(l => l.partialMatch && l.completeMatch);
     const partialMatchedLinks = parsedLinks.filter(l => l.partialMatch && !l.completeMatch);
     const unmatchedLinks = parsedLinks.filter(l => !l.partialMatch && !l.completeMatch);
+
+    const networkArray = useAppSelector(state => state.links);
 
     const [linkArray, setLinkArray] = React.useState<ParsedTicket[]>(completeMatchedLinks);
 
@@ -33,6 +36,23 @@ const MapTickets = () => {
             return p
         });
     }
+
+    React.useEffect(() => {
+        partialMatchedLinks.forEach(parsedLink => {
+            parsedLink.matches.forEach(otherLink => {
+                if (completeMatchedLinks.find(cl => cl.linkname === otherLink)) {
+                    let foundLink = completeMatchedLinks.find(cl => cl.linkname === otherLink);
+                    if (foundLink) {
+                        let arr = networkArray[foundLink?.firstMatchRefIndex].connectedLinks;
+                        if (arr) {
+                            const res = doFuseAgain(arr, parsedLink.linkname); 
+
+                        }
+                    }
+                } 
+            })
+        })
+    }, []);
 
     React.useEffect(() => {
         if (stage === "partial" && partialMatchedLinks.length === 0) {

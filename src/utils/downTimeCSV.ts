@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import { BillData, roundToTwo } from "../state/Bill";
+import { LinkData } from "../state/links";
 
 const formatTimestamp = (ts: number) => {
     return dayjs(ts).format('DD-MM-YYYY hh:mm');
@@ -55,7 +56,43 @@ export const createBillSummaryString = (billdata: BillData[], total: number) => 
     csvString = csvString.concat(",,,,,,,,,,,,,,,Total (excluding GST),Rs " + (total) + "\n");
     csvString = csvString.concat(",,,,,,,,,,,,,,,GST Amount,Rs " + roundToTwo(total * 0.18) + "\n");
     csvString = csvString.concat(",,,,,,,,,,,,,,,Total (With GST),Rs " + roundToTwo(total * 1.18) + "\n");
-    
+
     return csvString;
 }
 
+export const createNetworkString = (networkArray: LinkData[]) => {
+    // id: number;
+    // label: string;
+    // region?: string;
+    // cps: number[];
+    // lm?: string;
+    // connectedLinks?: string[];
+    // alias?: string[];
+    let csvString = "id, label, region, cps, lm, connectedLinks, alias\n";
+
+    networkArray.forEach(link => {
+        console.log(link)
+        csvString = csvString.concat(link.id + ","
+            + link.label + ","
+            + link.region + ","
+            + listGenerator(link.cps) + ","
+            + link.lm + ","
+            + listGenerator(link.connectedLinks) + ","
+            + listGenerator(link.alias) + "\n"
+        );
+    });
+
+    return csvString;
+}
+
+const listGenerator = (arr: string[] | number[] | undefined) => {
+    let str = "";
+    if (arr)
+        arr.forEach((a, i) => {
+            str = str.concat(a as string);
+            if (i !== arr.length - 1) {
+                str = str.concat(";");
+            }
+        });
+    return str;
+}

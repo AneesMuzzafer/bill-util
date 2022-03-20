@@ -3,11 +3,11 @@ import { ParsedTicket } from "./parsedLinks";
 export interface LinkData {
     id: number;
     label: string;
-    region?: string;
+    region: string;
     cps: number[];
-    lm?: string;
+    lm: string;
     connectedLinks?: string[];
-    alias?: string[];
+    alias: string[];
 }
 
 const initialState: LinkData[] = [];
