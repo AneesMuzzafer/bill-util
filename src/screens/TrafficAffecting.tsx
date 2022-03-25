@@ -13,10 +13,6 @@ import { addDowntime } from "../state/Bill";
 import useTheme from "@mui/material/styles/useTheme";
 import StepperComponent from "../components/StepperComponent";
 
-const LIGHTBLUE = "#d1e4f6";
-const EVENLIGHTERBLUE = "#e8f1fb";
-const WHITE = "#fff";
-
 dayjs.extend(isBetween);
 
 const TicketAffecting = () => {

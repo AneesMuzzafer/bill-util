@@ -49,7 +49,7 @@ export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) =>
                         ticketResolvedAt: closingDate,
                         trafficAffected: false,
                         trafficAffectingStatusInTicket: !ticket.Description.toUpperCase().includes("{NO}") ,
-                        matches: parsedLinks.map(l => l !== link)
+                        matches: parsedLinks.filter(l => l !== link)
                     });
 
                 } else if (match.length > 0 && match[0].score && match[0].score > 0.3) {
@@ -65,7 +65,7 @@ export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) =>
                         ticketResolvedAt: closingDate,
                         trafficAffected: false,
                         trafficAffectingStatusInTicket: !ticket.Description.toUpperCase().includes("{NO}") ,
-                        matches: parsedLinks.map(l => l !== link)
+                        matches: parsedLinks.filter(l => l !== link)
                     });
                 } else {
                     parsedResult.push({
@@ -80,7 +80,7 @@ export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) =>
                         ticketResolvedAt: closingDate,
                         trafficAffected: false,
                         trafficAffectingStatusInTicket: !ticket.Description.toUpperCase().includes("{NO}") ,
-                        matches: parsedLinks.map(l => l !== link)
+                        matches: parsedLinks.filter(l => l !== link)
                     });
                 }
             });
@@ -108,6 +108,6 @@ export const doFuseAgain = (connectedLinks: string[], link: string) => {
     });
 
     const match = fuse.search(link.trim());
-    console.log(match)
+    console.log(connectedLinks, "-----", match)
     return 2;
 }
