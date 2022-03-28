@@ -56,14 +56,14 @@ export const createDowmtimeString = (billdata: BillData[]) => {
 
     billdata.forEach(item => {
 
-        csvString = csvString.concat(item.id + "," + item.customerName + ",,,\n");
+        csvString = csvString.concat(item.id + "," + item.customerName + ",,,,\n");
         let itemNo = 1;
         item.downtimes.forEach(ticket => {
-            csvString = csvString.concat("," + romanize(itemNo) + ".," + formatTimestamp(ticket.startedAt) + "," + formatTimestamp(ticket.resolvedAt) + "," + formatInHours(ticket.resolvedAt - ticket.startedAt) + " hours\n")
+            csvString = csvString.concat(",," + romanize(itemNo) + ".," + formatTimestamp(ticket.startedAt) + "," + formatTimestamp(ticket.resolvedAt) + "," + formatInHours(ticket.resolvedAt - ticket.startedAt) + " hours\n")
             itemNo++;
         });
-        csvString = csvString.concat(",,,Total," + formatInHours(item.downtime) + " hours\n");
-        csvString = csvString.concat(",,,,\n");
+        csvString = csvString.concat(",,,,Total," + formatInHours(item.downtime) + " hours\n");
+        csvString = csvString.concat(",,,,,\n");
     });
 
     return csvString;

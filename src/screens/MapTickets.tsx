@@ -19,8 +19,6 @@ const MapTickets = () => {
     const partialMatchedLinks = parsedLinks.filter(l => l.partialMatch && !l.completeMatch);
     const unmatchedLinks = parsedLinks.filter(l => !l.partialMatch && !l.completeMatch);
 
-    console.log(parsedLinks);
-
     const [linkArray, setLinkArray] = React.useState<ParsedTicket[]>(completeMatchedLinks);
 
     const dispatch = useAppDispatch();
