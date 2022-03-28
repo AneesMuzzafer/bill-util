@@ -16,10 +16,8 @@ const MainScreen = () => {
     const dispatch = useAppDispatch();
     const networkArray = useAppSelector(state => state.links);
     
-
     const handleTicketProcessing = async (ticketFile: File) => {
         const tickets = await processCsv(ticketFile);
-        console.log(tickets);
         setTicketArray(tickets);
     }
 
