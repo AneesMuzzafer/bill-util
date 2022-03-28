@@ -10,6 +10,29 @@ const formatInHours = (ts: number) => {
     return roundToTwo(ts / 3600000);
 }
 
+export const getSlab = (slab: number) => {
+    switch (slab) {
+        case 0:
+            return " ×1";
+        case 1:
+            return " ×1.25";
+        case 2:
+            return " ×1.5";
+        case 3:
+            return " ×1.75";
+        case 4:
+            return " ×2";
+        case 5:
+            return " ×2.25";
+        case 6:
+            return " ×2.5";
+        case 7:
+            return " ×3";
+        default:
+            return " ×1";
+    }
+}
+
 export const createDowmtimeString = (billdata: BillData[]) => {
 
     let csvString = "";
@@ -31,7 +54,7 @@ export const createDowmtimeString = (billdata: BillData[]) => {
 
 export const createBillSummaryString = (billdata: BillData[], total: number) => {
 
-    let csvString = "id, Customer Name, CP Number, Capacity, Link From, Link To, Doco, Last Mile Type, Annual Invoice Value, Share Percent, Unit Rate, Number Of Days, Downtime, Uptime Percent, Penalty Slab, Penalty in Hours, Amount (excluding GST)\n";
+    let csvString = "id, Customer Name, CP Number, Capacity, Link From, Link To, Doco, Last Mile Type, Annual Invoice Value, Sanguine Share Percent, Unit Rate, Number Of Days, Downtime, Uptime Percent, Penalty Slab, Penalty in Hours, Penalty Amount, Amount (excluding GST)\n";
 
     billdata.forEach(item => {
 
@@ -47,15 +70,16 @@ export const createBillSummaryString = (billdata: BillData[], total: number) => 
             + item.sharePercent + ","
             + item.unitRate + ","
             + item.numberOfDays + ","
-            + item.downtime + ","
+            + formatInHours(item.downtime) + ","
             + item.uptimePercent + ","
-            + item.penaltySlab + ","
+            + getSlab(item.penaltySlab) + ","
             + item.penaltyHours + ","
+            + roundToTwo((item.unitRate / 24) * (item.penaltyHours)) + ","
             + item.amount + "\n");
     });
-    csvString = csvString.concat(",,,,,,,,,,,,,,,Total (excluding GST),Rs " + (total) + "\n");
-    csvString = csvString.concat(",,,,,,,,,,,,,,,GST Amount,Rs " + roundToTwo(total * 0.18) + "\n");
-    csvString = csvString.concat(",,,,,,,,,,,,,,,Total (With GST),Rs " + roundToTwo(total * 1.18) + "\n");
+    csvString = csvString.concat(",,,,,,,,,,,,,,,,Total (excluding GST),Rs " + (total) + "\n");
+    csvString = csvString.concat(",,,,,,,,,,,,,,,,GST Amount,Rs " + roundToTwo(total * 0.18) + "\n");
+    csvString = csvString.concat(",,,,,,,,,,,,,,,,Total (With GST),Rs " + roundToTwo(total * 1.18) + "\n");
 
     return csvString;
 }

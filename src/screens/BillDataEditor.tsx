@@ -27,7 +27,11 @@ const BillDataEditor = () => {
 
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         let value = parseInt(e.target.value);
-        setDays(value);
+        if (value >= 0) {
+            setDays(value);
+        } else {
+            setDays(0);
+        }
     }
 
     const handleTimeChange = (newValue: Date | null, at: string, index: number) => {

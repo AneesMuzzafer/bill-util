@@ -72,6 +72,15 @@ export const BillSlice = createSlice({
             state[action.payload.index].penaltyHours = calculateDowntimePenalty(state[action.payload.index].penaltySlab, state[action.payload.index].downtime);
             state[action.payload.index].amount = calculateAmount(state[action.payload.index].penaltyHours, state[action.payload.index].unitRate, state[action.payload.index].numberOfDays);
         },
+        updateBillDays: (state, action: PayloadAction<number>) => {
+            state.forEach(billItem => {
+                billItem.numberOfDays = action.payload;
+                billItem.uptimePercent = calculateUptimePercent(billItem.downtime, billItem.numberOfDays);
+                billItem.penaltySlab = getSlab(billItem.uptimePercent, billItem.lastMile);
+                billItem.penaltyHours = calculateDowntimePenalty(billItem.penaltySlab, billItem.downtime);
+                billItem.amount = calculateAmount(billItem.penaltyHours, billItem.unitRate, billItem.numberOfDays);
+            })
+        },
         calculateAllItems: (state) => {
             state.forEach(billItem => {
                 billItem.downtime = calculateDownTime(billItem.downtimes);
@@ -84,7 +93,7 @@ export const BillSlice = createSlice({
     },
 });
 
-export const { updateBillState, updateOneItem, addDowntime, calculateAllItems, clearBillState, updateDays } = BillSlice.actions;
+export const { updateBillState, updateOneItem, addDowntime, calculateAllItems, clearBillState, updateDays, updateBillDays } = BillSlice.actions;
 
 export default BillSlice.reducer;
 
@@ -94,6 +103,12 @@ export const roundToFour = (num: number) => Math.round((num + Number.EPSILON) * 
 const calculateDownTime = (downTimeArray: DownTime[]) => {
     let downTime: number;
     if (downTimeArray.length > 0) {
+        if (downTimeArray.length === 1 && downTimeArray[0].downtime < 3600000) {
+            return 0;
+        }
+        if (downTimeArray.length === 2 && (downTimeArray[0].downtime + downTimeArray[1].downtime) < 7200000) {
+            return 0;
+        }
         downTime = downTimeArray.reduce((p, c) => p + c.downtime, 0);
         if (downTime) {
             return downTime;

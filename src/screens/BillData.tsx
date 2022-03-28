@@ -3,10 +3,10 @@ import { useAppDispatch, useAppSelector } from "../state/hook";
 
 import { DataGrid, GridColDef, GridRenderCellParams, GridToolbar, GridValueFormatterParams, GridValueGetterParams } from '@mui/x-data-grid';
 
-import { addDowntime, calculateAllItems, DownTime, clearBillState, BillData, updateDays, roundToTwo } from "../state/Bill";
-import { Button, Chip, Container, Paper, Typography } from "@mui/material";
+import { addDowntime, calculateAllItems, DownTime, clearBillState, BillData, updateDays, roundToTwo, updateBillDays } from "../state/Bill";
+import { Button, Chip, Container, Paper, TextField, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { createBillSummaryString, createDowmtimeString } from "../utils/downTimeCSV";
+import { createBillSummaryString, createDowmtimeString, getSlab } from "../utils/downTimeCSV";
 
 import { CSVLink } from "react-csv";
 import StepperComponent from "../components/StepperComponent";
@@ -154,6 +154,7 @@ const BillDataScreen = () => {
             type: 'number',
             width: 110,
             editable: true,
+            valueGetter: (params: GridValueGetterParams) => getSlab(params.row.penaltySlab)
         },
         {
             field: 'penaltyHours',
@@ -198,9 +199,11 @@ const BillDataScreen = () => {
     ];
 
 
-    const parsedTickets = useAppSelector(state => state.parsedTickets);
-    const networkArray = useAppSelector(state => state.links);
+    // const parsedTickets = useAppSelector(state => state.parsedTickets);
+    // const networkArray = useAppSelector(state => state.links);
     const billData = useAppSelector(state => state.billItems);
+
+    const [totalDays, setTotalDays] = React.useState<number>(billData[0].numberOfDays);
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -261,6 +264,15 @@ const BillDataScreen = () => {
         download(JSON.stringify(billData), "bill.json", "text/JSON");
     }
 
+    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+        let value = parseInt(e.target.value);
+        if (value >= 0) {
+            setTotalDays(value);
+        } else {
+            setTotalDays(0);
+        }
+    }
+
     return (
         <>
             <Container>
@@ -277,6 +289,10 @@ const BillDataScreen = () => {
                             <Button variant="outlined" >Bill Summary</Button>
                         </CSVLink>
                         <Button onClick={() => downloadJSON()} variant="outlined">JSON</Button>
+                    </Box>
+                    <Box sx={{display: "flex", justifyContent: "center"}}>
+                        <TextField label="No. of Days" variant="outlined" value={totalDays} sx={{mx: 2}} onChange={(e: any) => handleChange(e)} />
+                        <Button onClick={() => dispatch(updateBillDays(totalDays))} variant="text">Update</Button>
                     </Box>
                 </Paper>
             </Container>
