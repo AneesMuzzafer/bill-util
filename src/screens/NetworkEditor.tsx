@@ -26,7 +26,7 @@ const NetworkEditor = () => {
                 <Box sx={{ width: "100%", height: "15vh", borderBottom: "solid 1px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                     <UploadFileButton handleProcessing={handleLinkProcessing} />
                     <CSVLink filename={`network-${new Date()}.csv`} style={{ textDecorationLine: "none", marginRight: 20 }} data={createNetworkString(networkArray)}>
-                        <Button variant="outlined" >Downtime</Button>
+                        <Button variant="outlined" >Download Network</Button>
                     </CSVLink>
                 </Box>
                 <Box sx={{ width: "100%" }}>

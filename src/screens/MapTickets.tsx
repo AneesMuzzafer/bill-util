@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import StepperComponent from "../components/StepperComponent";
 import useTheme from "@mui/material/styles/useTheme";
 import { addAliases } from "../state/links";
-import {doFuseAgain} from "../utils/fuzzySeach"
+// import {doFuseAgain} from "../utils/fuzzySeach"
 
 const MapTickets = () => {
 
@@ -19,15 +19,14 @@ const MapTickets = () => {
     const partialMatchedLinks = parsedLinks.filter(l => l.partialMatch && !l.completeMatch);
     const unmatchedLinks = parsedLinks.filter(l => !l.partialMatch && !l.completeMatch);
 
-    const networkArray = useAppSelector(state => state.links);
-
+    
     const [linkArray, setLinkArray] = React.useState<ParsedTicket[]>(completeMatchedLinks);
-
+    
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-
+    
     const theme = useTheme();
-
+    
     const handleSelect = (ticket: ParsedTicket, newRefIndex: number) => {
         dispatch(updateOneTicket({ ticket, networkIndex: newRefIndex }));
         setLinkArray(p => {
@@ -37,23 +36,25 @@ const MapTickets = () => {
         });
     }
 
-    React.useEffect(() => {
-        partialMatchedLinks.forEach(parsedLink => {
-            parsedLink.matches.forEach(otherLink => {
-                console.log(parsedLink, "----", otherLink)
-                if (completeMatchedLinks.find(cl => cl.linkname === otherLink)) {
-                    let foundLink = completeMatchedLinks.find(cl => cl.linkname === otherLink);
-                    if (foundLink) {
-                        let arr = networkArray[foundLink?.firstMatchRefIndex].connectedLinks;
-                        if (arr) {
-                            const res = doFuseAgain(arr, parsedLink.linkname); 
-                            // console.log("from map tickets", res)
-                        }
-                    }
-                } 
-            })
-        })
-    }, []);
+    // const networkArray = useAppSelector(state => state.links);
+
+    // React.useEffect(() => {
+    //     partialMatchedLinks.forEach(parsedLink => {
+    //         parsedLink.matches.forEach(otherLink => {
+    //             if (completeMatchedLinks.find(cl => cl.linkname === otherLink)) {
+    //                 let foundLink = completeMatchedLinks.find(cl => cl.linkname === otherLink);
+    //                 if (foundLink) {
+    //                     let arr = networkArray[foundLink?.firstMatchRefIndex].connectedLinks;
+    //                     if (arr) {
+    //                         console.log("foundlink", foundLink);
+    //                         const res = doFuseAgain(arr, parsedLink.linkname); 
+
+    //                     }
+    //                 }
+    //             } 
+    //         })
+    //     })
+    // }, []);
 
     React.useEffect(() => {
         if (stage === "partial" && partialMatchedLinks.length === 0) {

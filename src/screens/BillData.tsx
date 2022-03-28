@@ -268,18 +268,15 @@ const BillDataScreen = () => {
                 <Paper sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: 1, marginBottom: 2 }}>
                     <Box display="flex" >
                         <Typography variant="button">Total Amount:  <Chip label={`₹ ${roundToTwo(totalValue).toLocaleString("en-IN")}`} color="primary" variant="outlined" sx={{ fontWeight: "bold", marginX: 2, marginBottom: 1 }} /></Typography>
-                        {/* <Typography variant="button">Total Including GST: <Chip label={`₹ ${roundToTwo(totalValue * 1.18).toLocaleString("en-IN")}`} color="primary" variant="outlined" sx={{ fontWeight: "bold", marginRight: 2 }} /></Typography> */}
                     </Box>
                     <Box sx={{ display: "flex" }}>
-                        <CSVLink  filename={`downtime-${new Date()}.csv`} style={{ textDecorationLine: "none", marginRight: 20 }} data={createDowmtimeString(billData)}>
+                        <CSVLink filename={`downtime-${new Date()}.csv`} style={{ textDecorationLine: "none", marginRight: 20 }} data={createDowmtimeString(billData)}>
                             <Button variant="outlined" >Downtime</Button>
                         </CSVLink>
                         <CSVLink filename={`bill-summary-${new Date()}.csv`} style={{ textDecorationLine: "none", marginRight: 20 }} data={createBillSummaryString(billData, totalValue)}>
                             <Button variant="outlined" >Bill Summary</Button>
                         </CSVLink>
-                        {/* <CSVLink style={{ textDecorationLine: "none" }} data={createDowmtimeString(billData)}> */}
-                            <Button onClick={() => downloadJSON()} variant="outlined">JSON</Button>
-                        {/* </CSVLink> */}
+                        <Button onClick={() => downloadJSON()} variant="outlined">JSON</Button>
                     </Box>
                 </Paper>
             </Container>

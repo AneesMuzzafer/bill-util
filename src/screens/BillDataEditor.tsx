@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from "../state/hook";
 import DateAdapter from '@mui/lab/AdapterDayjs';
 
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-// import DateTimePicker from '@mui/lab/DateTimePicker';
 import DesktopDateTimePicker from '@mui/lab/DesktopDateTimePicker';
 
 import { DownTime, roundToTwo, updateOneItem } from "../state/Bill";
@@ -126,11 +125,8 @@ const BillDataEditor = () => {
                         </div>
                     ))
                 }
-
                 <Button onClick={handleAdd}> + Add downtime</Button>
             </Container>
-
-
         </LocalizationProvider >
     );
 }

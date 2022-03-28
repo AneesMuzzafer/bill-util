@@ -108,6 +108,6 @@ export const doFuseAgain = (connectedLinks: string[], link: string) => {
     });
 
     const match = fuse.search(link.trim());
-    console.log("connected Links:" , connectedLinks , match)
+    console.log(connectedLinks, "-----", match)
     return 2;
 }
