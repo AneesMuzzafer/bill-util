@@ -131,10 +131,3 @@ export const processBillCsv = async (csvFile: object): Promise<BillData[]> => {
     });
     return promise;
 }
-
-const getPenaltyString = (num: number) => {
-    switch (num) {
-        case 0:
-            return "1"
-    }
-}

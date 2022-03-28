@@ -43,7 +43,7 @@ const TrafficAffectingRow: React.FC<ITARProps> = ({ thisTicket, isAffecting, sel
                 setBgColor(WHITE);
             }
         }
-    }, [isSelected, selected.id]);
+    }, [isSelected, selected.id, selected.ticketResolvedAt, selected.ticketStartedAt, thisTicket.ticketResolvedAt, thisTicket.ticketStartedAt]);
 
     return (
         <Paper

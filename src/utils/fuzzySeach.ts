@@ -92,11 +92,11 @@ export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) =>
     return parsedResult;
 }
 
-export const doFuseAgain = (connectedLinks: string[], link: string) => {
-    const fuse = new Fuse(connectedLinks, {
-        includeScore: true
-    });
+// export const doFuseAgain = (connectedLinks: string[], link: string) => {
+//     const fuse = new Fuse(connectedLinks, {
+//         includeScore: true
+//     });
 
-    const match = fuse.search(link.trim());
-    return 2;
-}
+//     const match = fuse.search(link.trim());
+//     return 2;
+// }
