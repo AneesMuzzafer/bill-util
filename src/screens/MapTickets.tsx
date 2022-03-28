@@ -40,13 +40,14 @@ const MapTickets = () => {
     React.useEffect(() => {
         partialMatchedLinks.forEach(parsedLink => {
             parsedLink.matches.forEach(otherLink => {
+                console.log(parsedLink, "----", otherLink)
                 if (completeMatchedLinks.find(cl => cl.linkname === otherLink)) {
                     let foundLink = completeMatchedLinks.find(cl => cl.linkname === otherLink);
                     if (foundLink) {
                         let arr = networkArray[foundLink?.firstMatchRefIndex].connectedLinks;
                         if (arr) {
                             const res = doFuseAgain(arr, parsedLink.linkname); 
-
+                            // console.log("from map tickets", res)
                         }
                     }
                 } 
