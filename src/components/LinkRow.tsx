@@ -3,18 +3,14 @@ import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import Paper from '@mui/material/Paper';
 import { LinkData } from "../state/links";
-
-
 export interface Link {
     id: number;
     label: string;
 }
-
 interface ILinkRow {
     thisLink: LinkData;
     conLinks: string[] | undefined;
 }
-
 
 const LinkRow: React.FC<ILinkRow> = ({ thisLink, conLinks }) => {
     return (
@@ -53,35 +49,9 @@ const LinkRow: React.FC<ILinkRow> = ({ thisLink, conLinks }) => {
                                 variant="outlined"
                             />
                         </li>
-                    )
-                    )}
-                    {/* {conLinks && conLinks.map((name, index) => (
-                    <li key={index} style={{ margin: 0, padding: 0 }}>
-                        <Chip
-                            sx={{ marginX: 0.5 }}
-                            label={name}
-                            color="primary"
-                            variant="outlined"
-                        />
-                    </li>
-                )
-                )} */}
+                    ))}
                 </Box>
             </Box>
-            {/* <Box sx={{ display: "flex", padding: 0 }}>
-                <Autocomplete
-                    disablePortal
-                    clearOnEscape
-                    id="combo-box-demo"
-                    options={links}
-                    sx={{ width: 300 }}
-                    onChange={(event, newValue: Link | null) => {
-                        newValue && setSelectedLink(newValue);
-                    }}
-                    renderInput={(params) => <TextField {...params} size="small" label="Link" />}
-                />
-                <Button variant="contained" size="small" sx={{ mx: 2 }} onClick={() => selectedLink && addLink(selectedLink)}>Add</Button>
-            </Box> */}
         </Paper>
     );
 }

@@ -26,10 +26,8 @@ const UploadFileButton: React.FC<{handleProcessing: (file: File) => void}> = ({h
                 <Button variant="outlined" component="span" >
                     Upload
                 </Button>
-                
             </label>
             <Button disabled={!file ? true : false} sx={{ml: 2}} variant="contained" onClick={() => { file && handleProcessing(file)}}>{buttonName()}</Button>
-
         </Box>
     );
 }

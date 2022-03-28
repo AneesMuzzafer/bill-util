@@ -88,7 +88,6 @@ const BillDataEditor = () => {
                     <TextField label="No. of Days" variant="outlined" sx={{ marginY: 5 }} value={days} onChange={(e: any) => handleChange(e)} />
                 </Box>
                 <Typography variant="overline">Downtimes</Typography>
-
                 {
                     linkDowntimes.map((downtime, index) => (
                         <div key={index}>

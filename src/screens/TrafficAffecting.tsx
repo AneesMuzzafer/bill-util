@@ -17,11 +17,9 @@ dayjs.extend(isBetween);
 
 const TicketAffecting = () => {
 
-
     const networkArray = useAppSelector(state => state.links);
     const billData = useAppSelector(state => state.billItems);
 
-    // const parsedTickets = useAppSelector(state => state.parsedTickets.filter(ticket => networkArray[ticket.firstMatchRefIndex].lm === "sanguine"));
     const parsedTickets = useAppSelector(state => state.parsedTickets);
 
     const [tickets, setTickets] = React.useState<ParsedTicket[]>(parsedTickets);
@@ -43,7 +41,6 @@ const TicketAffecting = () => {
     const handlePress = (t: ParsedTicket) => {
         setSelected(t);
     }
-
 
     const handleCreate = () => {
 
@@ -77,7 +74,6 @@ const TicketAffecting = () => {
             <Container>
                 <StepperComponent step={2} />
             </Container>
-            
             <Box sx={{}}>
                 <Paper
                     sx={{
@@ -115,7 +111,7 @@ const TicketAffecting = () => {
                     })
                 }
             </Box>
-            <Box sx={{display: "flex", flex: 1, justifyContent: "flex-end", marginY: 10}}>
+            <Box sx={{ display: "flex", flex: 1, justifyContent: "flex-end", marginY: 10 }}>
                 <Button variant="contained" onClick={handleCreate}>Create Bill</Button>
             </Box>
         </Container>

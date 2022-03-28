@@ -28,35 +28,21 @@ export const parsedLinkSlice = createSlice({
             let item = state.find(s => s.id === action.payload.ticket.id);
             if (item) {
                 state[state.indexOf(item)].firstMatchRefIndex = action.payload.networkIndex;
-                // state[state.indexOf(item)].completeMatch = true;
             }
         },
         updateCompleteFlag: (state, action: PayloadAction<ParsedTicket[]>) => {
             action.payload.forEach(p => {
                 let item = state.find(s => s.id === p.id);
                 if (item) {
-                    // state[state.indexOf(item)].firstMatchRefIndex = action.payload.networkIndex;
                     state[state.indexOf(item)].completeMatch = true;
                 }
             });
-
-            // let item = state.find(s => s.id === action.payload.ticket.id);
-            // if (item) {
-            //     state[state.indexOf(item)].firstMatchRefIndex = action.payload.networkIndex;
-            //     state[state.indexOf(item)].completeMatch = true;
-            // }
         },
         updateOneCompleteFlag: (state, action: PayloadAction<ParsedTicket>) => {
                 let item = state.find(s => s.id === action.payload.id);
                 if (item) {
                     state[state.indexOf(item)].completeMatch = true;
                 }
-
-            // let item = state.find(s => s.id === action.payload.ticket.id);
-            // if (item) {
-            //     state[state.indexOf(item)].firstMatchRefIndex = action.payload.networkIndex;
-            //     state[state.indexOf(item)].completeMatch = true;
-            // }
         },
     },
 });

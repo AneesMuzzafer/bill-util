@@ -21,7 +21,6 @@ export default function TopBar() {
                     >
                         <MenuIcon />
                     </IconButton>
-
                     <Link style={{  color: 'inherit', textDecoration: 'inherit', flexGrow: 1}} to="/">
                         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                             POWERGRID BILL UTILITY

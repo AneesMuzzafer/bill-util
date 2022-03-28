@@ -7,8 +7,6 @@ import { Checkbox } from "@mui/material";
 import { ParsedTicket } from "../state/parsedLinks";
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
-import { useAppSelector } from "../state/hook";
-
 
 const LIGHTBLUE = "#d1e4f6";
 const EVENLIGHTERBLUE = "#e8f1fb";
@@ -22,7 +20,6 @@ interface ITARProps {
     handleChange: (thisTicket: ParsedTicket) => void;
     onPress: (thisTicket: ParsedTicket) => void;
 }
-
 
 dayjs.extend(isBetween);
 

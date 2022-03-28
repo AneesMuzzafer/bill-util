@@ -1,7 +1,4 @@
-import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { RootState } from './store';
-
-
+import {  createSlice, PayloadAction } from '@reduxjs/toolkit'
 export interface DownTime {
     id: number;
     startedAt: number;
@@ -195,13 +192,3 @@ const calculateDowntimePenalty = (penaltySlab: number, downtime: number) => {
 }
 
 const calculateAmount = (penalty: number, unitRate: number, days: number) => roundToTwo((unitRate / 24) * ((days * 24) - penalty));
-
-// export const getTotalDownTime = createSelector((state: RootState) => state.billItems[2].downtimes, (arr) => {
-//     if (arr && arr.length > 0) {
-//         let totalDowntime = 0;
-//         arr.forEach(a => { totalDowntime = totalDowntime + a.downtime })
-//         return totalDowntime;
-//     } else {
-//         return "nope"
-//     }
-// });

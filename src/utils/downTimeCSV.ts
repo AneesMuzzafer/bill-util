@@ -10,6 +10,23 @@ const formatInHours = (ts: number) => {
     return roundToTwo(ts / 3600000);
 }
 
+const romanize = (num: number) => {
+    if (!+num) return false;
+    var digits = String(+num).split('');
+    var key = ['', 'c', 'cc', 'ccc', 'cd', 'd', 'dc', 'dccc', 'dcccc', 'cm',
+        '', 'x', 'xx', 'xxx', 'xl', 'l', 'lx', 'lxx', 'lxxx', 'xc',
+        '', 'i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii', 'ix'];
+    var roman = '', i = 3;
+    while (i--) {
+        let d = digits.pop();
+        if (d) {
+            roman = (key[+d + (i * 10)] || '') + roman;
+        }
+    }
+
+    return Array(+digits.join('') + 1).join('M') + roman;
+}
+
 export const getSlab = (slab: number) => {
     switch (slab) {
         case 0:
@@ -42,7 +59,7 @@ export const createDowmtimeString = (billdata: BillData[]) => {
         csvString = csvString.concat(item.id + "," + item.customerName + ",,,\n");
         let itemNo = 1;
         item.downtimes.forEach(ticket => {
-            csvString = csvString.concat("," + itemNo + "," + formatTimestamp(ticket.startedAt) + "," + formatTimestamp(ticket.resolvedAt) + "," + formatInHours(ticket.resolvedAt - ticket.startedAt) + " hours\n")
+            csvString = csvString.concat("," + romanize(itemNo) + ".," + formatTimestamp(ticket.startedAt) + "," + formatTimestamp(ticket.resolvedAt) + "," + formatInHours(ticket.resolvedAt - ticket.startedAt) + " hours\n")
             itemNo++;
         });
         csvString = csvString.concat(",,,Total," + formatInHours(item.downtime) + " hours\n");
@@ -85,13 +102,6 @@ export const createBillSummaryString = (billdata: BillData[], total: number) => 
 }
 
 export const createNetworkString = (networkArray: LinkData[]) => {
-    // id: number;
-    // label: string;
-    // region?: string;
-    // cps: number[];
-    // lm?: string;
-    // connectedLinks?: string[];
-    // alias?: string[];
     let csvString = "id, label, region, cps, lm, connectedLinks, alias\n";
 
     networkArray.forEach(link => {

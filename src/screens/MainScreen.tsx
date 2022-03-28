@@ -19,6 +19,7 @@ const MainScreen = () => {
 
     const handleTicketProcessing = async (ticketFile: File) => {
         const tickets = await processCsv(ticketFile);
+        console.log(tickets);
         setTicketArray(tickets);
     }
 

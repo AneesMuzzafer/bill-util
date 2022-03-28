@@ -30,8 +30,8 @@ export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) =>
             const clearedTitle = ticket.Title.replace(/ *\([^)]*\) */g, "");
             const parsedLinks = clearedTitle.split(/[-;/\\/]+/);
 
-            const openingDate = dayjs(ticket["Opening date"], "DD-MM-YYYY hh:mm").valueOf();
-            const closingDate = dayjs(ticket["Resolution date"], "DD-MM-YYYY hh:mm").valueOf();
+            const openingDate = dayjs(ticket["Opening date"], "DD-MM-YY hh:mm").valueOf();
+            const closingDate = dayjs(ticket["Resolution date"], "DD-MM-YY hh:mm").valueOf();
 
             parsedLinks.forEach((link: string, index) => {
 
@@ -94,20 +94,9 @@ export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) =>
 
 export const doFuseAgain = (connectedLinks: string[], link: string) => {
     const fuse = new Fuse(connectedLinks, {
-        
-        // [
-        //     {
-        //         name: "label",
-        //         weight: 1
-        //     }, {
-        //         name: "region",
-        //         weight: 0.01
-        //     }
-        // ],
         includeScore: true
     });
 
     const match = fuse.search(link.trim());
-    console.log(connectedLinks, "-----", match)
     return 2;
 }

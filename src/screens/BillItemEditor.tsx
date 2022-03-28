@@ -15,8 +15,6 @@ const BillEditor = () => {
         const billData = await processBillCsv(billFile);
         dispatch(updateBillState(billData));
         localStorage.setItem("bill", JSON.stringify(billData));
-
-        console.log("stored", billData)
     }
 
     return (

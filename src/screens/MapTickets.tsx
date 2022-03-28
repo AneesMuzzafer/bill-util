@@ -19,14 +19,15 @@ const MapTickets = () => {
     const partialMatchedLinks = parsedLinks.filter(l => l.partialMatch && !l.completeMatch);
     const unmatchedLinks = parsedLinks.filter(l => !l.partialMatch && !l.completeMatch);
 
-    
+    console.log(parsedLinks);
+
     const [linkArray, setLinkArray] = React.useState<ParsedTicket[]>(completeMatchedLinks);
-    
+
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    
+
     const theme = useTheme();
-    
+
     const handleSelect = (ticket: ParsedTicket, newRefIndex: number) => {
         dispatch(updateOneTicket({ ticket, networkIndex: newRefIndex }));
         setLinkArray(p => {
@@ -164,8 +165,6 @@ const MapTickets = () => {
                 <Typography variant="button">Total Links UnMatched = <Chip label={unmatchedLinks.length} /></Typography>
                 <Button variant="contained" sx={{ width: 20 }} onClick={handleUpdate}>Update</Button>
             </Paper>
-            {/* <Box sx={{ display: "flex", justifyContent: "flex-end", marginY: 2 }}>
-            </Box> */}
             {renderTable()}
         </Container >
     );

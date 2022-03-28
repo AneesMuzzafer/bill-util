@@ -39,7 +39,6 @@ const NetworkEditor = () => {
             </Box>
         </Container>
     );
-
 }
 
 export default NetworkEditor;
