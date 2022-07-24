@@ -95,6 +95,7 @@ const TicketAffecting = () => {
                             listStyle: 'none',
                         }}>
                         <Chip label="Ticket Description" color="default" variant="outlined" sx={{ color: "#fff", fontWeight: "bold", marginRight: 2, width: 250 }} />
+                        <Chip label="Category" color="default" variant="outlined" sx={{ color: "#fff", fontWeight: "bold", marginRight: 2, width: 250 }} />
                         <Chip label="Downtime" color="default" variant="outlined" sx={{ color: "#fff", fontWeight: "bold", marginRight: 2, width: 250 }} />
                         <Chip label="Downtime Hours" color="default" variant="outlined" sx={{ color: "#fff", fontWeight: "bold", marginRight: 2 }} />
                         <Chip label="Link Name" color="default" variant="outlined" sx={{ color: "#fff", fontWeight: "bold", marginRight: 2, width: 200 }} />

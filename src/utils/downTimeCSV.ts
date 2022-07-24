@@ -71,7 +71,7 @@ export const createDowmtimeString = (billdata: BillData[]) => {
 
 export const createBillSummaryString = (billdata: BillData[], total: number) => {
 
-    let csvString = "id, Customer Name, CP Number, Capacity, Link From, Link To, Doco, Last Mile Type, Annual Invoice Value, Sanguine Share Percent, Unit Rate, Number Of Days, Downtime, Uptime Percent, Penalty Slab, Penalty in Hours, Penalty Amount, Amount (excluding GST)\n";
+    let csvString = "id, Customer Name, CP Number, Capacity, Link From, Link To, Doco, Last Mile Type, Annual Invoice Value, Sanguine Share Percent, Discount Offered, Annual Vendor Value, Unit Rate, Number Of Days, Downtime, Uptime Percent, Penalty Slab, Penalty in Hours, Penalty Amount, Amount (excluding GST)\n";
 
     billdata.forEach(item => {
 
@@ -85,6 +85,8 @@ export const createBillSummaryString = (billdata: BillData[], total: number) => 
             + item.lastMile + ","
             + item.annualInvoiceValue + ","
             + item.sharePercent + ","
+            + item.discountOffered + ","
+            + item.annualVendorValue + ","
             + item.unitRate + ","
             + item.numberOfDays + ","
             + formatInHours(item.downtime) + ","
@@ -94,9 +96,9 @@ export const createBillSummaryString = (billdata: BillData[], total: number) => 
             + roundToTwo((item.unitRate / 24) * (item.penaltyHours)) + ","
             + item.amount + "\n");
     });
-    csvString = csvString.concat(",,,,,,,,,,,,,,,,Total (excluding GST),Rs " + (total) + "\n");
-    csvString = csvString.concat(",,,,,,,,,,,,,,,,GST Amount,Rs " + roundToTwo(total * 0.18) + "\n");
-    csvString = csvString.concat(",,,,,,,,,,,,,,,,Total (With GST),Rs " + roundToTwo(total * 1.18) + "\n");
+    csvString = csvString.concat(",,,,,,,,,,,,,,,,,,Total (excluding GST),Rs " + (total) + "\n");
+    csvString = csvString.concat(",,,,,,,,,,,,,,,,,,GST Amount,Rs " + roundToTwo(total * 0.18) + "\n");
+    csvString = csvString.concat(",,,,,,,,,,,,,,,,,,Total (With GST),Rs " + roundToTwo(total * 1.18) + "\n");
 
     return csvString;
 }
@@ -104,7 +106,7 @@ export const createBillSummaryString = (billdata: BillData[], total: number) => 
 export const createNetworkString = (networkArray: LinkData[]) => {
     let csvString = "id, label, region, cps, lm, connectedLinks, alias\n";
 
-    networkArray.forEach(link => {
+    networkArray && networkArray.forEach(link => {
         console.log(link)
         csvString = csvString.concat(link.id + ","
             + link.label + ","

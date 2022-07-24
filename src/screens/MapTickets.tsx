@@ -88,10 +88,10 @@ const MapTickets = () => {
                         flag = false;
                     }
                 });
-                if (!flag) {
-                    alert("Match All links first");
-                    break;
-                };
+                // if (!flag) {
+                //     alert("Match All links first");
+                //     break;
+                // };
                 dispatch(updateCompleteFlag(partialMatchedLinks));
                 dispatch(addAliases(partialMatchedLinks));
                 setLinkArray(unmatchedLinks);

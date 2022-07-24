@@ -18,11 +18,14 @@ const MainScreen = () => {
     
     const handleTicketProcessing = async (ticketFile: File) => {
         const tickets = await processCsv(ticketFile);
+        console.log(tickets);
+
         setTicketArray(tickets);
     }
 
     React.useEffect(() => {
         if (ticketArray.length > 0 && networkArray) {
+            console.log("here")
             dispatch(updateParsedState(doFuzzySearch(ticketArray, networkArray)));
             navigate("/map");
         }

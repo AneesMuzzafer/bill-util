@@ -26,6 +26,7 @@ export default function TopBar() {
                             POWERGRID BILL UTILITY
                         </Typography>
                     </Link>
+                    <Button color="inherit" href="/load">Load</Button>
                     <Button color="inherit" href="/links">Network</Button>
                     <Button color="inherit" href="/bills">Bill Items</Button>
                 </Toolbar>

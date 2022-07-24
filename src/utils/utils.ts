@@ -114,16 +114,70 @@ export const processBillCsv = async (csvFile: object): Promise<BillData[]> => {
                         lastMile: linkFields[7],
                         annualInvoiceValue: parseFloat(linkFields[8]),
                         sharePercent: parseFloat(linkFields[9]),
-                        unitRate: parseFloat(linkFields[10]),
-                        numberOfDays: parseInt(linkFields[11]),
-                        downtime: parseFloat(linkFields[12]),
-                        uptimePercent: parseFloat(linkFields[13]),
-                        penaltySlab: parseInt(linkFields[14]),
-                        penaltyHours: parseFloat(linkFields[15]),
-                        amount: parseFloat(linkFields[16]),
+                        discountOffered: parseFloat(linkFields[10]),
+                        annualVendorValue: parseFloat(linkFields[11]),
+                        unitRate: parseFloat(linkFields[12]),
+                        numberOfDays: parseInt(linkFields[13]),
+                        downtime: parseFloat(linkFields[14]),
+                        uptimePercent: parseFloat(linkFields[15]),
+                        penaltySlab: parseInt(linkFields[16]),
+                        penaltyHours: parseFloat(linkFields[17]),
+                        amount: parseFloat(linkFields[18]),
                         downtimes: [],
                     }
                 });
+            }
+
+            res(billDataArray);
+        }
+    });
+    return promise;
+}
+
+export const processJSON = async (jsonFile: object, bill: BillData[]): Promise<BillData[]> => {
+    const promise = new Promise<BillData[]>((res, rej) => {
+        let billDataArray: BillData[] = [];
+        const reader = new FileReader();
+
+        reader.readAsText(jsonFile as Blob);
+        reader.onload = (e) => {
+            const data = e.target?.result?.toString();
+
+            if (data) {
+
+                billDataArray = JSON.parse(data);
+                // const rows = data?.slice(data.indexOf("\n") + 1, -1).split("\n");
+
+                billDataArray.forEach((item, index)=> {
+                    item.annualInvoiceValue = bill[index].annualInvoiceValue;
+                    item.discountOffered = bill[index].discountOffered;
+                    item.annualVendorValue = bill[index].annualVendorValue;
+                    item.unitRate = bill[index].unitRate;
+                });
+
+                // billDataArray = rows.map(row => {
+                //     const linkFields = row.replace(/['"]+/g, '').split(",");
+                //     return {
+                //         id: parseInt(linkFields[0]),
+                //         customerName: linkFields[1],
+                //         cpNumber: parseInt(linkFields[2]),
+                //         capacity: linkFields[3],
+                //         linkFrom: linkFields[4],
+                //         linkTo: linkFields[5],
+                //         doco: linkFields[6],
+                //         lastMile: linkFields[7],
+                //         annualInvoiceValue: parseFloat(linkFields[8]),
+                //         sharePercent: parseFloat(linkFields[9]),
+                //         unitRate: parseFloat(linkFields[10]),
+                //         numberOfDays: parseInt(linkFields[11]),
+                //         downtime: parseFloat(linkFields[12]),
+                //         uptimePercent: parseFloat(linkFields[13]),
+                //         penaltySlab: parseInt(linkFields[14]),
+                //         penaltyHours: parseFloat(linkFields[15]),
+                //         amount: parseFloat(linkFields[16]),
+                //         downtimes: [],
+                //     }
+                // });
             }
 
             res(billDataArray);

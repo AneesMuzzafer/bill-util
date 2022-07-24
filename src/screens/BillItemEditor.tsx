@@ -31,6 +31,7 @@ const BillEditor = () => {
                     <Chip label="Link To" color="primary" variant="filled" sx={{ fontWeight: "bold", marginRight: 2, width: 150 }} />
                     <Chip label="Annual Invoice Value" color="primary" variant="filled" sx={{ fontWeight: "bold", marginRight: 2, width: 100 }} />
                     <Chip label="Last Mile Vendor" color="primary" variant="filled" sx={{ fontWeight: "bold", marginRight: 2, width: 100 }} />
+                    <Chip label="Unit Rate" color="primary" variant="filled" sx={{ fontWeight: "bold", marginRight: 2, width: 100 }} />
                 </Paper>
                 <Box sx={{ width: "100%" }}>
                     {
@@ -41,8 +42,9 @@ const BillEditor = () => {
                                 <Chip label={item.cpNumber} color="primary" variant="outlined" sx={{ fontWeight: "bold", marginRight: 2, width: 100 }} />
                                 <Chip label={item.linkFrom} color="primary" variant="outlined" sx={{ fontWeight: "bold", marginRight: 2, width: 150 }} />
                                 <Chip label={item.linkTo} color="primary" variant="outlined" sx={{ fontWeight: "bold", marginRight: 2, width: 150 }} />
-                                <Chip label={item.annualInvoiceValue.toLocaleString("en-IN")} color="primary" variant="outlined" sx={{ fontWeight: "bold", marginRight: 2, width: 100 }} />
+                                <Chip label={item.annualInvoiceValue?.toLocaleString("en-IN")} color="primary" variant="outlined" sx={{ fontWeight: "bold", marginRight: 2, width: 100 }} />
                                 <Chip label={item.lastMile} color="primary" variant="outlined" sx={{ fontWeight: "bold", marginRight: 2, width: 100 }} />
+                                <Chip label={item.unitRate} color="primary" variant="outlined" sx={{ fontWeight: "bold", marginRight: 2, width: 100 }} />
                             </Paper>
                         )
                     }

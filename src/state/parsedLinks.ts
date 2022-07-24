@@ -3,6 +3,7 @@ export interface ParsedTicket {
     id: number;
     linkname: string;
     ticketDesc: string;
+    category: string;
     completeMatch: boolean;
     partialMatch: boolean;
     ticketId: string;

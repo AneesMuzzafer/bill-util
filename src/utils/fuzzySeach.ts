@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { ParsedTicket } from "../state/parsedLinks";
 
-dayjs.extend(customParseFormat)
+dayjs.extend(customParseFormat);
 
 
 export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) => {
@@ -30,8 +30,8 @@ export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) =>
             const clearedTitle = ticket.Title.replace(/ *\([^)]*\) */g, "");
             const parsedLinks = clearedTitle.split(/[-;/\\/]+/);
 
-            const openingDate = dayjs(ticket["Opening date"], "DD-MM-YY hh:mm").valueOf();
-            const closingDate = dayjs(ticket["Resolution date"], "DD-MM-YY hh:mm").valueOf();
+            const openingDate = dayjs(ticket["Opening date"], "DD-MM-YYYY HH:mm").valueOf();
+            const closingDate = dayjs(ticket["Resolution date"], "DD-MM-YYYY HH:mm").valueOf();
 
             parsedLinks.forEach((link: string, index) => {
 
@@ -41,6 +41,7 @@ export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) =>
                         id: id++,
                         linkname: link,
                         ticketDesc: ticket.Title,
+                        category: ticket.Category,
                         completeMatch: true,
                         partialMatch: true,
                         ticketId: ticket.ID,
@@ -48,7 +49,7 @@ export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) =>
                         ticketStartedAt: openingDate,
                         ticketResolvedAt: closingDate,
                         trafficAffected: false,
-                        trafficAffectingStatusInTicket: !ticket.Description.toUpperCase().includes("{NO}") ,
+                        trafficAffectingStatusInTicket: !ticket.Description.toUpperCase().includes("{NO}"),
                         matches: parsedLinks.filter(l => l !== link)
                     });
 
@@ -57,6 +58,7 @@ export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) =>
                         id: id++,
                         linkname: link,
                         ticketDesc: ticket.Title,
+                        category: ticket.Category,
                         completeMatch: false,
                         partialMatch: true,
                         ticketId: ticket.ID,
@@ -64,7 +66,7 @@ export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) =>
                         ticketStartedAt: openingDate,
                         ticketResolvedAt: closingDate,
                         trafficAffected: false,
-                        trafficAffectingStatusInTicket: !ticket.Description.toUpperCase().includes("{NO}") ,
+                        trafficAffectingStatusInTicket: !ticket.Description.toUpperCase().includes("{NO}"),
                         matches: parsedLinks.filter(l => l !== link)
                     });
                 } else {
@@ -72,6 +74,7 @@ export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) =>
                         id: id++,
                         linkname: link,
                         ticketDesc: ticket.Title,
+                        category: ticket.Category,
                         completeMatch: false,
                         partialMatch: false,
                         ticketId: ticket.ID,
@@ -79,7 +82,7 @@ export const doFuzzySearch = (ticketArray: TicketObject[], links: LinkData[]) =>
                         ticketStartedAt: openingDate,
                         ticketResolvedAt: closingDate,
                         trafficAffected: false,
-                        trafficAffectingStatusInTicket: !ticket.Description.toUpperCase().includes("{NO}") ,
+                        trafficAffectingStatusInTicket: !ticket.Description.toUpperCase().includes("{NO}"),
                         matches: parsedLinks.filter(l => l !== link)
                     });
                 }

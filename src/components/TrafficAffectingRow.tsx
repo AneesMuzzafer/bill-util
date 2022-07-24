@@ -66,6 +66,7 @@ const TrafficAffectingRow: React.FC<ITARProps> = ({ thisTicket, isAffecting, sel
                     listStyle: 'none',
                 }}>
                 <Chip label={thisTicket.ticketDesc} color={disabled ? "default" : "primary"} variant="outlined" sx={{ fontWeight: "bold", marginRight: 2 }} />
+                <Chip label={thisTicket.category} color={disabled ? "default" : "primary"} variant="outlined" sx={{ fontWeight: "bold", marginRight: 2 }} />
                 <Chip label={sd + " - " + cd} color={disabled ? "default" : "primary"} variant="outlined" sx={{ fontWeight: "bold", marginRight: 2 }} />
                 <Chip label={dif + " hours"} color={disabled ? "default" : "primary"} variant="outlined" sx={{ fontWeight: "bold", marginRight: 2 }} />
                 <Chip label={thisTicket.linkname} color={disabled ? "default" : "primary"} variant="filled" sx={{ fontWeight: "bold", marginRight: 2, width: 200 }} />

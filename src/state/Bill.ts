@@ -1,4 +1,4 @@
-import {  createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 export interface DownTime {
     id: number;
     startedAt: number;
@@ -16,6 +16,8 @@ export interface BillData {
     lastMile: string;
     annualInvoiceValue: number;
     sharePercent: number;
+    discountOffered: number;
+    annualVendorValue: number;
     unitRate: number;
     numberOfDays: number;
     downtime: number;
@@ -46,10 +48,17 @@ export const BillSlice = createSlice({
             state[action.payload.itemIndex].downtimes = action.payload.dt;
             state[action.payload.itemIndex].numberOfDays = action.payload.days;
             state[action.payload.itemIndex].downtime = calculateDownTime(state[action.payload.itemIndex].downtimes);
-            state[action.payload.itemIndex].uptimePercent = calculateUptimePercent(state[action.payload.itemIndex].downtime, state[action.payload.itemIndex].numberOfDays);
-            state[action.payload.itemIndex].penaltySlab = getSlab(state[action.payload.itemIndex].uptimePercent, state[action.payload.itemIndex].lastMile);
-            state[action.payload.itemIndex].penaltyHours = calculateDowntimePenalty(state[action.payload.itemIndex].penaltySlab, state[action.payload.itemIndex].downtime);
-            state[action.payload.itemIndex].amount = calculateAmount(state[action.payload.itemIndex].penaltyHours, state[action.payload.itemIndex].unitRate, state[action.payload.itemIndex].numberOfDays);
+            if (action.payload.days > 0) {
+                state[action.payload.itemIndex].uptimePercent = calculateUptimePercent(state[action.payload.itemIndex].downtime, state[action.payload.itemIndex].numberOfDays);
+                state[action.payload.itemIndex].penaltySlab = getSlab(state[action.payload.itemIndex].uptimePercent, state[action.payload.itemIndex].lastMile);
+                state[action.payload.itemIndex].penaltyHours = calculateDowntimePenalty(state[action.payload.itemIndex].penaltySlab, state[action.payload.itemIndex].downtime);
+                state[action.payload.itemIndex].amount = calculateAmount(state[action.payload.itemIndex].penaltyHours, state[action.payload.itemIndex].unitRate, state[action.payload.itemIndex].numberOfDays);
+            } else {
+                state[action.payload.itemIndex].uptimePercent = 1;
+                state[action.payload.itemIndex].penaltySlab = 0;
+                state[action.payload.itemIndex].penaltyHours = 0;
+                state[action.payload.itemIndex].amount = 0;
+            }
         },
         clearBillState: (state) => {
             state.forEach(item => item.downtimes = []);
@@ -64,10 +73,17 @@ export const BillSlice = createSlice({
         },
         updateDays: (state, action: PayloadAction<{ index: number, days: number }>) => {
             state[action.payload.index].numberOfDays = action.payload.days;
-            state[action.payload.index].uptimePercent = calculateUptimePercent(state[action.payload.index].downtime, state[action.payload.index].numberOfDays);
-            state[action.payload.index].penaltySlab = getSlab(state[action.payload.index].uptimePercent, state[action.payload.index].lastMile);
-            state[action.payload.index].penaltyHours = calculateDowntimePenalty(state[action.payload.index].penaltySlab, state[action.payload.index].downtime);
-            state[action.payload.index].amount = calculateAmount(state[action.payload.index].penaltyHours, state[action.payload.index].unitRate, state[action.payload.index].numberOfDays);
+            if (action.payload.days === 0) {
+                state[action.payload.index].uptimePercent = 1;
+                state[action.payload.index].penaltySlab = 0;
+                state[action.payload.index].penaltyHours = 0;
+                state[action.payload.index].amount = 0;
+            } else {
+                state[action.payload.index].uptimePercent = calculateUptimePercent(state[action.payload.index].downtime, state[action.payload.index].numberOfDays);
+                state[action.payload.index].penaltySlab = getSlab(state[action.payload.index].uptimePercent, state[action.payload.index].lastMile);
+                state[action.payload.index].penaltyHours = calculateDowntimePenalty(state[action.payload.index].penaltySlab, state[action.payload.index].downtime);
+                state[action.payload.index].amount = calculateAmount(state[action.payload.index].penaltyHours, state[action.payload.index].unitRate, state[action.payload.index].numberOfDays);
+            }
         },
         updateBillDays: (state, action: PayloadAction<number>) => {
             state.forEach(billItem => {
@@ -80,11 +96,20 @@ export const BillSlice = createSlice({
         },
         calculateAllItems: (state) => {
             state.forEach(billItem => {
-                billItem.downtime = calculateDownTime(billItem.downtimes);
-                billItem.uptimePercent = calculateUptimePercent(billItem.downtime, billItem.numberOfDays);
-                billItem.penaltySlab = getSlab(billItem.uptimePercent, billItem.lastMile);
-                billItem.penaltyHours = calculateDowntimePenalty(billItem.penaltySlab, billItem.downtime);
-                billItem.amount = calculateAmount(billItem.penaltyHours, billItem.unitRate, billItem.numberOfDays);
+
+                if (billItem.numberOfDays === 0) {
+                    billItem.downtime = calculateDownTime(billItem.downtimes);
+                    billItem.uptimePercent = 1
+                    billItem.penaltySlab = 0
+                    billItem.penaltyHours = 0
+                    billItem.amount = 0
+                } else {
+                    billItem.downtime = calculateDownTime(billItem.downtimes);
+                    billItem.uptimePercent = calculateUptimePercent(billItem.downtime, billItem.numberOfDays);
+                    billItem.penaltySlab = getSlab(billItem.uptimePercent, billItem.lastMile);
+                    billItem.penaltyHours = calculateDowntimePenalty(billItem.penaltySlab, billItem.downtime);
+                    billItem.amount = calculateAmount(billItem.penaltyHours, billItem.unitRate, billItem.numberOfDays);
+                }
             })
         }
     },

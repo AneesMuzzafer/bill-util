@@ -11,6 +11,7 @@ import BillData from "../screens/BillData";
 import BillEditor from "../screens/BillItemEditor";
 import { updateBillState } from "../state/Bill";
 import BillDataEditor from "../screens/BillDataEditor";
+import LoadJSON from "../screens/LoadJSON";
 export default function Navigation() {
 
     const dispatch = useAppDispatch();
@@ -34,6 +35,7 @@ export default function Navigation() {
                 <Route path="/billData" element={<BillData />} />
                 <Route path="/links" element={<NetworkEditor />} />
                 <Route path="/bills" element={<BillEditor />} />
+                <Route path="/load" element={<LoadJSON />} />
                 <Route path="/itemEditor/:id" element={<BillDataEditor />} />
                 <Route path="/li" element={<div>abc</div>} />
             </Routes>
