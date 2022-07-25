@@ -14,7 +14,6 @@ const BillDataEditor = () => {
     const params = useParams();
 
 
-    console.log("vill")
     const index = parseInt(params.id || "0") - 1;
 
     const billDataItem = useAppSelector(state => state.billItems[index]);
