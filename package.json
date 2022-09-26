@@ -2,7 +2,7 @@
   "name": "util-test",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://aneesmuzzafer.github.io/bill-utility",
+  "homepage": "https://aneesmuzzafer.github.io/bill-util",
   "dependencies": {
     "@date-io/dayjs": "^2.13.1",
     "@emotion/react": "^11.8.1",
