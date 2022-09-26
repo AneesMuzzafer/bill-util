@@ -68,7 +68,7 @@ const BillDataEditor = () => {
             days: days,
             dt: linkDowntimes
         }));
-        navigate("/billData");
+        navigate("/bill-util/billData");
     }
 
     return (

@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter , Route, Routes } from "react-router-dom";
 import TopBar from "../components/TopBar";
 import NetworkEditor from "../screens/NetworkEditor";
 import MainScreen from "../screens/MainScreen";
@@ -26,7 +26,7 @@ export default function Navigation() {
     }, [dispatch]);
 
     return (
-        <BrowserRouter>
+        <HashRouter>
             <TopBar />
             <Routes>
                 <Route path="/" element={<MainScreen />} />
@@ -39,6 +39,6 @@ export default function Navigation() {
                 <Route path="/itemEditor/:id" element={<BillDataEditor />} />
                 <Route path="/li" element={<div>abc</div>} />
             </Routes>
-        </BrowserRouter>
+        </HashRouter>
     )
 }

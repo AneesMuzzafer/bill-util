@@ -27,7 +27,7 @@ const MainScreen = () => {
         if (ticketArray.length > 0 && networkArray) {
             console.log("here")
             dispatch(updateParsedState(doFuzzySearch(ticketArray, networkArray)));
-            navigate("/map");
+            navigate("/bill-util/map");
         }
     }, [ticketArray, networkArray, navigate, dispatch]);
 

@@ -22,7 +22,7 @@ const LoadJSON = () => {
         if (bill) {
             const billData = await processJSON(jsonFile, JSON.parse(bill));
             dispatch(updateBillState(billData));
-            navigate("/billData");
+            navigate("/bill-util/billData");
         } else {
             console.log("Please upload a basic bill")
         }

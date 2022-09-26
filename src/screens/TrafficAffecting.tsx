@@ -66,7 +66,7 @@ const TicketAffecting = () => {
             });
         });
 
-        navigate("/billData");
+        navigate("/bill-util/billData");
     }
 
     return (

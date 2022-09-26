@@ -61,7 +61,7 @@ const MapTickets = () => {
             setStage("unmatched");
         }
         if (stage === "unmatched" && unmatchedLinks.length === 0) {
-            navigate("/traffic");
+            navigate("/bill-util/traffic");
         }
     }, [stage, navigate, partialMatchedLinks, unmatchedLinks]);
 
@@ -110,7 +110,7 @@ const MapTickets = () => {
                 };
                 dispatch(updateCompleteFlag(unmatchedLinks));
                 dispatch(addAliases(unmatchedLinks));
-                navigate("/traffic");
+                navigate("/bill-util/traffic");
                 break;
         }
     }

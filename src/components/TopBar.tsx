@@ -21,14 +21,14 @@ export default function TopBar() {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Link style={{  color: 'inherit', textDecoration: 'inherit', flexGrow: 1}} to="/">
+                    <Link style={{  color: 'inherit', textDecoration: 'inherit', flexGrow: 1}} to="/bill-util/">
                         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                             POWERGRID BILL UTILITY
                         </Typography>
                     </Link>
-                    <Button color="inherit" href="/load">Load</Button>
-                    <Button color="inherit" href="/links">Network</Button>
-                    <Button color="inherit" href="/bills">Bill Items</Button>
+                    <Button color="inherit" href="/bill-util/load">Load</Button>
+                    <Button color="inherit" href="/bill-util/links">Network</Button>
+                    <Button color="inherit" href="/bill-util/bills">Bill Items</Button>
                 </Toolbar>
             </AppBar>
         </Box>
