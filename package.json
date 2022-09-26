@@ -2,6 +2,7 @@
   "name": "util-test",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://aneesmuzzafer.github.io/bill-utility",
   "dependencies": {
     "@date-io/dayjs": "^2.13.1",
     "@emotion/react": "^11.8.1",
@@ -61,6 +62,7 @@
   },
   "devDependencies": {
     "@types/downloadjs": "^1.4.3",
-    "@types/react-csv": "^1.1.2"
+    "@types/react-csv": "^1.1.2",
+    "gh-pages": "^4.0.0"
   }
 }
